@@ -1,5 +1,6 @@
 import Heap from "../src/structures/Heap";
 import benchmark from "../src/helpers/benchmark";
+import { expect } from 'chai';
 
 let ARRAY_SIZE = 1e5;
 
@@ -9,16 +10,16 @@ for(let i = 0;i < ARRAY_SIZE;i++) {
 }
 
 let sortedArray = benchmark(() => Array.from(testArray).sort((a,b) => b - a), "array sorting");
-test('Heap orders array', () => {
+it('should use a heap to order an array', () => {
     let heap = benchmark(() => new Heap(testArray), "heap creation");
 
     for(let i=0;i < ARRAY_SIZE;i++) {
-        expect(heap.extract()).toBe(sortedArray[i])
+        expect(heap.extract()).equal(sortedArray[i])
     }
 })
 
 class ValuedObject {
-    private value: number;
+    private readonly value: number;
     constructor(value: number) {
         this.value = value;
     }
@@ -28,9 +29,9 @@ class ValuedObject {
     }
 }
 let valuedObjectArray = testArray.map(number => new ValuedObject(number))
-test('Heap orders valued objects', () => {
+it('should use a heap to order valued objects', () => {
     let heap = new Heap(valuedObjectArray);
     for(let i=0;i < ARRAY_SIZE;i++) {
-        expect(heap.extract()!.valueOf()).toBe(sortedArray[i])
+        expect(heap.extract()!.valueOf()).equal(sortedArray[i])
     }
 })
