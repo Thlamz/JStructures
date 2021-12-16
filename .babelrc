@@ -1,0 +1,16 @@
+{
+  "presets": ["@babel/preset-typescript", "@babel/preset-env"],
+  "plugins": [
+    [
+      "search-and-replace",
+      {
+        "rules": [
+          {
+            "search": "import_meta_url",
+            "replace": "__filename"
+          }
+        ]
+      }
+    ]
+  ]
+}

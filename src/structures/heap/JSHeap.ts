@@ -1,10 +1,9 @@
-interface Comparable {
-    valueOf(): number;
-}
+import Heap from "./Heap";
 
-class Heap<StoredType extends Comparable> {
-    private readonly _heap: StoredType[];
-    constructor(list: StoredType[] = []) {
+
+class JSHeap implements Heap {
+    private readonly _heap: number[];
+    constructor(list: number[] = []) {
         this._heap = [];
 
         for(let element of list) {
@@ -13,7 +12,7 @@ class Heap<StoredType extends Comparable> {
     }
 
 
-    insert(element: StoredType): void {
+    insert(element: number): void {
         this._heap.push(element);
 
         let index: number = this._heap.length - 1;
@@ -21,12 +20,12 @@ class Heap<StoredType extends Comparable> {
         this.push_up(index);
     }
 
-    extract(): StoredType | void {
+    extract(): number | void {
         if(this._heap.length == 0) {
             return
         }
 
-        let extracted: StoredType = this._heap[0];
+        let extracted: number = this._heap[0];
 
         this._heap[0] = this._heap.pop()!;
         this.push_down(0);
@@ -81,10 +80,10 @@ class Heap<StoredType extends Comparable> {
     }
 
     private swap(x: number, y: number): void {
-        let temp:StoredType = this._heap[x];
+        let temp:number = this._heap[x];
         this._heap[x] = this._heap[y];
         this._heap[y] = temp;
     }
 }
 
-export default Heap
+export default JSHeap
