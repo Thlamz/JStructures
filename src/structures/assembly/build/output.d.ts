@@ -1,20 +1,19 @@
 /// <reference types="emscripten" />
 /** Above will import declarations from @types/emscripten, including Module etc. */
 
-// This will merge to the existing EmscriptenModule interface from @types/emscripten
-// If this doesn't work, try globalThis.EmscriptenModule instead.
-
+import IHeap, {Comparable} from "../../heap/IHeap"
 
 
 export namespace bindings {
-    class VectorDouble {
-        protected abstract constructor(): VectorStructure;
-        abstract push_back(value: double): void;
+    class Heap implements IHeap {
+        protected constructor();
+        abstract insert(element: Comparable, number: number): void;
+        abstract extract(): Comparable;
+        abstract size(): number
     }
-
-    class Heap {
-        protected abstract constructor(list: VectorStructure): HeapStructure;
-        abstract insert(double): void;
+    class NumberHeap implements IHeap {
+        protected constructor();
+        abstract insert(number: number): void;
         abstract extract(): number;
         abstract size(): number
     }

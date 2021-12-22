@@ -12,31 +12,17 @@
 
 using namespace emscripten;
 
-class Heap : public std::priority_queue<double> {
-public:
-    Heap(const emscripten::val &list) {
-        std::vector<double> vector = convertJSArrayToNumberVector<double>(list);
-        std::priority_queue<double>();
-        for(double value : vector) {
-            this->push(value);
-        }
-    };
-    void insert(double value);
-    double extract();
-    int size();
+auto cmp = [](std::pair<unsigned int, double> &left, std::pair<unsigned int, double> &right) {
+    return left.second < right.second;
 };
-
-EMSCRIPTEN_BINDINGS(module) {
-        class_<Heap>("Heap")
-                .smart_ptr<std::shared_ptr<Heap>>("Heap")
-                .constructor<const emscripten::val&>()
-                .function("insert", &Heap::insert)
-                .function("extract", &Heap::extract)
-                .function("size", &Heap::size)
-        ;
-        register_vector<double>("VectorDouble");
-}
-
-
+using Priority = std::priority_queue<std::pair<unsigned int, double>, std::vector<std::pair<unsigned int, double>>, decltype(cmp)>;
+class Heap : public Priority {
+public:
+    Heap() : Priority(cmp) {
+    };
+    void insert(unsigned int element, double value);
+    unsigned int extract();
+    unsigned int size();
+};
 
 #endif //BINDINGS_HEAP_HPP

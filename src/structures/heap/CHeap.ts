@@ -1,20 +1,30 @@
-import Heap from "./Heap";
+import IHeap, {Comparable} from "./IHeap";
 
-const bindings = require("../assembly/build/output");
+const { Heap } = require("../assembly/build/output");
 
-class CHeap implements Heap {
+export default class CHeap implements IHeap {
     private heap;
-    constructor(list: number[] = []) {
-        this.heap = new bindings.Heap(list)
+    private elementList: Record<number, Comparable>;
+    private lastKey: number = 0;
+    constructor() {
+        this.heap = new Heap()
+        this.elementList = {}
     }
-
-    insert(value: number) {
-        this.heap.insert(value);
+    insert(value: Comparable) {
+        this.elementList[this.lastKey] = value
+        this.heap.insert(this.lastKey, value.valueOf())
+        this.lastKey++
     }
-
-    extract() {
-        return this.heap.extract();
+    extract(): Comparable | void {
+        let key = this.heap.extract()
+        if(key === -1) {
+            return;
+        }
+        let value = this.elementList[key]
+        delete this.elementList[key]
+        return value
+    }
+    size(): number {
+        return this.heap.size()
     }
 }
-
-export default CHeap;

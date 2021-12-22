@@ -4,16 +4,19 @@
 
 #include "Heap.hpp"
 
-void Heap::insert(double value) {
-    this->push(value);
+void Heap::insert(unsigned int index, double value) {
+    this->push(std::pair<unsigned int, double>(index, value));
 }
 
-double Heap::extract() {
-    double value = this->top();
+unsigned int Heap::extract() {
+    if(this->size() == 0) {
+        return -1;
+    }
+    unsigned int value = this->top().first;
     this->pop();
     return value;
 }
 
-int Heap::size() {
-    return std::priority_queue<double>::size();
+unsigned int Heap::size() {
+    return Priority::size();
 }

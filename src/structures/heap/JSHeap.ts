@@ -1,16 +1,11 @@
-import Heap from "./Heap";
+import IHeap from "./IHeap";
 
 
-class JSHeap implements Heap {
+class JSHeap implements IHeap {
     private readonly _heap: number[];
-    constructor(list: number[] = []) {
+    constructor() {
         this._heap = [];
-
-        for(let element of list) {
-            this.insert(element);
-        }
     }
-
 
     insert(element: number): void {
         this._heap.push(element);
@@ -21,8 +16,8 @@ class JSHeap implements Heap {
     }
 
     extract(): number | void {
-        if(this._heap.length == 0) {
-            return
+        if(this._heap.length == 1) {
+            return this._heap.pop()!
         }
 
         let extracted: number = this._heap[0];
@@ -30,6 +25,10 @@ class JSHeap implements Heap {
         this._heap[0] = this._heap.pop()!;
         this.push_down(0);
         return extracted;
+    }
+
+    size(): number {
+        return this._heap.length
     }
 
     private push_down(index: number): void {
