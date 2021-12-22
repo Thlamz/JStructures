@@ -19,7 +19,7 @@ EMSCRIPTEN_BINDINGS(module) {
 
         class_<NumberHeap>("NumberHeap")
             .smart_ptr<std::shared_ptr<NumberHeap>>("NumberHeap")
-            .constructor()
+            .constructor<const val&>()
             .function("insert", &NumberHeap::insert)
             .function("extract", &NumberHeap::extract)
             .function("size", &NumberHeap::size)

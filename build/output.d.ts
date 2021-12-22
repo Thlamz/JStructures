@@ -12,7 +12,7 @@ export namespace bindings {
         abstract size(): number
     }
     class NumberHeap implements IHeap {
-        protected constructor();
+        protected constructor(list: number[]);
         abstract insert(value: number): void;
         abstract extract(): number;
         abstract size(): number

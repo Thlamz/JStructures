@@ -6,9 +6,13 @@ export default class CHeap<T extends IComparable> implements IHeap<T> {
     private heap;
     private readonly elementList: Record<number, T>;
     private lastKey: number = 0;
-    constructor() {
+    constructor(list: T[] = []) {
         this.heap = new Heap()
         this.elementList = {}
+
+        for(let element of list) {
+            this.insert(element)
+        }
     }
     insert(value: T) {
         this.elementList[this.lastKey] = value

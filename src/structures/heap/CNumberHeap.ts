@@ -4,8 +4,8 @@ const { NumberHeap } = require("../../../build/output");
 
 export default class CNumberHeap implements IHeap<number> {
     private heap;
-    constructor() {
-        this.heap = new NumberHeap();
+    constructor(list: number[] = []) {
+        this.heap = new NumberHeap(list);
     }
 
     extract(): number | void {

@@ -26,10 +26,9 @@ let sortedArray = benchmark(() => Array.from(testArray).sort((a, b) => b - a), "
 implementations.forEach(({constructor, name}) => {
     describe(`Testing ${name} using numbers`, () => {
 
-        let heap = new constructor();
-        benchmark(() => {
-            testArray.forEach(element => heap.insert(element))
-        }, `${name} creation`);
+        let heap = benchmark(() =>
+            new constructor(testArray)
+        , `${name} creation`);
 
         it('should have the correct size', () => {
             assert.equal(heap.size(), ARRAY_SIZE)

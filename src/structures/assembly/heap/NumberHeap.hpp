@@ -15,7 +15,12 @@ using namespace emscripten;
 using PriorityNumber = std::priority_queue<double, std::vector<double>, std::less<double>>;
 class NumberHeap : public PriorityNumber {
 public:
-    NumberHeap() : PriorityNumber() {
+    NumberHeap(const val& list) : PriorityNumber() {
+        std::vector<double> vector = convertJSArrayToNumberVector<double>(list);
+
+        for(double element : vector) {
+            this->insert(element);
+        }
     };
     void insert(double value);
     double extract();

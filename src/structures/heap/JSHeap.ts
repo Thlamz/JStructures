@@ -3,8 +3,12 @@ import IHeap, {IComparable} from "./IHeap";
 
 class JSHeap<T extends IComparable> implements IHeap<T> {
     private readonly _heap: T[];
-    constructor() {
+    constructor(list: T[] = []) {
         this._heap = [];
+
+        for(let element of list) {
+            this.insert(element)
+        }
     }
 
     insert(element: T): void {
