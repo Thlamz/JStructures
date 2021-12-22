@@ -1,13 +1,13 @@
-import IHeap from "./IHeap";
+import IHeap, {IComparable} from "./IHeap";
 
 
-class JSHeap implements IHeap {
-    private readonly _heap: number[];
+class JSHeap<T extends IComparable> implements IHeap<T> {
+    private readonly _heap: T[];
     constructor() {
         this._heap = [];
     }
 
-    insert(element: number): void {
+    insert(element: T): void {
         this._heap.push(element);
 
         let index: number = this._heap.length - 1;
@@ -15,12 +15,12 @@ class JSHeap implements IHeap {
         this.push_up(index);
     }
 
-    extract(): number | void {
+    extract(): T | void {
         if(this._heap.length == 1) {
             return this._heap.pop()!
         }
 
-        let extracted: number = this._heap[0];
+        let extracted = this._heap[0];
 
         this._heap[0] = this._heap.pop()!;
         this.push_down(0);
@@ -79,7 +79,7 @@ class JSHeap implements IHeap {
     }
 
     private swap(x: number, y: number): void {
-        let temp:number = this._heap[x];
+        let temp = this._heap[x];
         this._heap[x] = this._heap[y];
         this._heap[y] = temp;
     }

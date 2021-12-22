@@ -1,4 +1,4 @@
-import {Comparable} from "../src/structures/heap/IHeap";
+import {IComparable} from "../src/structures/heap/IHeap";
 import assert from "assert";
 import JSHeap from "../src/structures/heap/JSHeap";
 import CHeap from "../src/structures/heap/CHeap";
@@ -36,8 +36,8 @@ implementations.forEach(({constructor, name}) => {
         valuedObjectArray.forEach(element => heap.insert(element))
         it('should use a heap to order valued objects', () => {
 
-            let heapResult: Comparable[] = []
-            let firstValue: Comparable = heap.extract()
+            let heapResult: IComparable[] = []
+            let firstValue: IComparable = heap.extract()
             heapResult.push(firstValue);
             for (let i = 1; i < OBJECT_ARRAY_SIZE; i++) {
                 heapResult.push(heap.extract())

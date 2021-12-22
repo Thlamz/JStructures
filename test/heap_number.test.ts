@@ -1,7 +1,7 @@
 import JSHeap from "../src/structures/heap/JSHeap";
 import CHeap from "../src/structures/heap/CHeap";
 import {benchmark, benchmarkAverage} from "../src/helpers/benchmark";
-import {Comparable} from "../src/structures/heap/IHeap";
+import {IComparable} from "../src/structures/heap/IHeap";
 import assert from 'assert'
 import CNumberHeap from "../src/structures/heap/CNumberHeap";
 
@@ -32,7 +32,7 @@ implementations.forEach(({constructor, name}) => {
         }, `${name} creation`);
         it('should use a heap to order an array', () => {
 
-            let heapResult: Comparable[] = benchmarkAverage(testArray, () => {
+            let heapResult: IComparable[] = benchmarkAverage(testArray, () => {
                 return heap.extract()
             }, `${name} extraction`)
             assert.deepStrictEqual(heapResult, sortedArray)

@@ -1,21 +1,21 @@
-import IHeap, {Comparable} from "./IHeap";
+import IHeap from "./IHeap";
 
 const { NumberHeap } = require("../../../build/output");
 
-export default class CNumberHeap implements IHeap {
+export default class CNumberHeap implements IHeap<number> {
     private heap;
     constructor() {
         this.heap = new NumberHeap();
     }
 
-    extract(): Comparable | void {
+    extract(): number | void {
         if(this.size() == 0) {
             return;
         }
         return this.heap.extract();
     }
 
-    insert(value: Comparable): void {
+    insert(value: number): void {
         this.heap.insert(value)
     }
 

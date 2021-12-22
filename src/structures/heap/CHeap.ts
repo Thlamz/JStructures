@@ -1,21 +1,21 @@
-import IHeap, {Comparable} from "./IHeap";
+import IHeap, {IComparable} from "./IHeap";
 
 const { Heap } = require("../../../build/output");
 
-export default class CHeap implements IHeap {
+export default class CHeap<T extends IComparable> implements IHeap<T> {
     private heap;
-    private elementList: Record<number, Comparable>;
+    private readonly elementList: Record<number, T>;
     private lastKey: number = 0;
     constructor() {
         this.heap = new Heap()
         this.elementList = {}
     }
-    insert(value: Comparable) {
+    insert(value: T) {
         this.elementList[this.lastKey] = value
         this.heap.insert(this.lastKey, value.valueOf())
         this.lastKey++
     }
-    extract(): Comparable | void {
+    extract(): T | void {
         let key = this.heap.extract()
         if(key === -1) {
             return;

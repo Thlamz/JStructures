@@ -1,7 +1,7 @@
 /// <reference types="emscripten" />
 /** Above will import declarations from @types/emscripten, including Module etc. */
 
-import IHeap, {Comparable} from "../src/structures/heap/IHeap"
+import IHeap, {IComparable} from "../src/structures/heap/IHeap"
 
 
 export namespace bindings {
