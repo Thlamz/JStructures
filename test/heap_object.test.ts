@@ -34,6 +34,11 @@ implementations.forEach(({constructor, name}) => {
     describe(`Testing ${name} using objects`, () => {
         let heap = new constructor();
         valuedObjectArray.forEach(element => heap.insert(element))
+
+        it('should have the correct size', () => {
+            assert.equal(heap.size(), OBJECT_ARRAY_SIZE)
+        })
+
         it('should use a heap to order valued objects', () => {
 
             let heapResult: IComparable[] = []
@@ -43,6 +48,14 @@ implementations.forEach(({constructor, name}) => {
                 heapResult.push(heap.extract())
             }
             assert.deepStrictEqual(heapResult, sortedObjectArray)
+        })
+
+        it('should return void when empty', () => {
+            assert.equal(heap.extract(), null)
+        })
+
+        it('should have size 0 when empty', () => {
+            assert.equal(heap.size(), 0)
         })
     })
 })

@@ -16,13 +16,14 @@ class JSHeap<T extends IComparable> implements IHeap<T> {
     }
 
     extract(): T | void {
-        if(this._heap.length == 1) {
-            return this._heap.pop()!
+        let extracted = this._heap[0];
+        let lastElement = this._heap.pop()!;
+
+        if(this._heap.length == 0) {
+            return extracted
         }
 
-        let extracted = this._heap[0];
-
-        this._heap[0] = this._heap.pop()!;
+        this._heap[0] = lastElement
         this.push_down(0);
         return extracted;
     }

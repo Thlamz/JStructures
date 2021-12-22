@@ -30,6 +30,11 @@ implementations.forEach(({constructor, name}) => {
         benchmark(() => {
             testArray.forEach(element => heap.insert(element))
         }, `${name} creation`);
+
+        it('should have the correct size', () => {
+            assert.equal(heap.size(), ARRAY_SIZE)
+        })
+
         it('should use a heap to order an array', () => {
 
             let heapResult: IComparable[] = benchmarkAverage(testArray, () => {
@@ -40,6 +45,10 @@ implementations.forEach(({constructor, name}) => {
 
         it('should return void when empty', () => {
             assert.equal(heap.extract(), null)
+        })
+
+        it('should have size 0 when empty', () => {
+            assert.equal(heap.size(), 0)
         })
     })
 })
