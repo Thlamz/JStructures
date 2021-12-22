@@ -1,6 +1,6 @@
 import IHeap, {Comparable} from "./IHeap";
 
-const { Heap } = require("../assembly/build/output");
+const { Heap } = require("../../../build/output");
 
 export default class CHeap implements IHeap {
     private heap;

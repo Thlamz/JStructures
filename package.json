@@ -29,7 +29,7 @@
     "cli": "ts-node src/cli.ts",
     "test": "mocha",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
-    "compile": "em++ -o src/structures/assembly/build/output.js src/structures/assembly/lib/Heap.cpp src/structures/assembly/lib/NumberHeap.cpp src/structures/assembly/lib/Bindings.cpp -s EXPORT_NAME=\"bindings\" -s WASM_ASYNC_COMPILATION=0 -s ALLOW_MEMORY_GROWTH=1 --bind -O3",
+    "compile": "em++ -o build/output.js src/structures/assembly/heap/Heap.cpp src/structures/assembly/heap/NumberHeap.cpp src/structures/assembly/Bindings.cpp -s EXPORT_NAME='bindings' -s WASM_ASYNC_COMPILATION=0 -s ALLOW_MEMORY_GROWTH=1 --bind -O3",
     "build": "tsc -p tsconfig.json",
     "clean": "rm -rf dist build",
     "ts-node": "ts-node"

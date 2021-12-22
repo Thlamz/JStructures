@@ -5,8 +5,8 @@
 #ifndef LIB_BINDINGS_HPP
 #define LIB_BINDINGS_HPP
 
-#include "Heap.hpp"
-#include "NumberHeap.hpp"
+#include "heap/Heap.hpp"
+#include "heap/NumberHeap.hpp"
 
 EMSCRIPTEN_BINDINGS(module) {
         class_<Heap>("Heap")
