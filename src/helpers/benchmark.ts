@@ -23,8 +23,9 @@ export function benchmarkAverage<Iterated, ReturnType>(iterator: Array<Iterated>
     let total: number = 0;
     for(let element of iterator) {
         let start = performance.now();
-        results.push(fn(element))
+        let result = fn(element);
         let end = performance.now();
+        results.push(result)
         total += (end - start)
     }
     console.log(`Benchmarked ${tag} at an average of ${limitPrecision(total/iterator.length)}ms and total of ${limitPrecision(total)}ms`);
