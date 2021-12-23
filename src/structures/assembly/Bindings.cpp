@@ -10,19 +10,24 @@
 
 EMSCRIPTEN_BINDINGS(module) {
         class_<Heap>("Heap")
-                .smart_ptr<std::shared_ptr<Heap>>("Heap")
                 .constructor()
                 .function("insert", &Heap::insert)
                 .function("extract", &Heap::extract)
                 .function("size", &Heap::size)
         ;
 
-        class_<NumberHeap>("NumberHeap")
-            .smart_ptr<std::shared_ptr<NumberHeap>>("NumberHeap")
+        class_<NumberHeap<std::less<double>>>("MaxNumberHeap")
             .constructor<const val&>()
-            .function("insert", &NumberHeap::insert)
-            .function("extract", &NumberHeap::extract)
-            .function("size", &NumberHeap::size)
+            .function("insert", &NumberHeap<std::less<double>>::insert)
+            .function("extract", &NumberHeap<std::less<double>>::extract)
+            .function("size", &NumberHeap<std::less<double>>::size)
+        ;
+
+        class_<NumberHeap<std::greater<double>>>("MinNumberHeap")
+            .constructor<const val&>()
+            .function("insert", &NumberHeap<std::greater<double>>::insert)
+            .function("extract", &NumberHeap<std::greater<double>>::extract)
+            .function("size", &NumberHeap<std::greater<double>>::size)
         ;
 }
 

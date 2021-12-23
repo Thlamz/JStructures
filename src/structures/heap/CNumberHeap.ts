@@ -1,27 +1,26 @@
 import IHeap from "./IHeap";
 
-const { NumberHeap } = require("../../../build/output");
+const { MaxNumberHeap, MinNumberHeap } = require("../../../build/output");
 
 export default class CNumberHeap implements IHeap<number> {
     private heap;
-    private readonly isMax;
     constructor(list: number[] = [], isMax: boolean = true) {
-        if(!isMax) {
-            list = list.map(n => -n)
+        if(isMax) {
+            this.heap = new MaxNumberHeap(list);
+        } else {
+            this.heap = new MinNumberHeap(list);
         }
-        this.heap = new NumberHeap(list);
-        this.isMax = isMax;
     }
 
     extract(): number | void {
         if(this.size() == 0) {
             return;
         }
-        return this.heap.extract() * (this.isMax ? 1 : -1);
+        return this.heap.extract();
     }
 
     insert(value: number): void {
-        this.heap.insert(value * (this.isMax ? 1 : -1));
+        this.heap.insert(value);
     }
 
     size(): number {

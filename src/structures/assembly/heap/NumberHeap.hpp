@@ -12,19 +12,29 @@
 
 using namespace emscripten;
 
-using PriorityNumber = std::priority_queue<double, std::vector<double>, std::less<double>>;
-class NumberHeap : public PriorityNumber {
+template<typename Compare>
+class NumberHeap : public std::priority_queue<double, std::vector<double>, Compare> {
 public:
-    NumberHeap(const val& list) : PriorityNumber() {
+    NumberHeap(const val& list) {
         std::vector<double> vector = convertJSArrayToNumberVector<double>(list);
 
         for(double element : vector) {
             this->insert(element);
         }
     };
-    void insert(double value);
-    double extract();
-    unsigned int size();
+    void insert(double value) {
+        this->push(value);
+    }
+
+    double extract() {
+        double value = this->top();
+        this->pop();
+        return value;
+    }
+
+    unsigned int size() {
+        return std::priority_queue<double, std::vector<double>, Compare>::size();
+    };
 };
 
 #endif //LIB_NUMBERHEAP_HPP

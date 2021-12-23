@@ -11,7 +11,14 @@ export namespace bindings {
         abstract extract(): number;
         abstract size(): number
     }
-    class NumberHeap implements IHeap {
+    class MaxNumberHeap implements IHeap {
+        protected constructor(list: number[]);
+        abstract insert(value: number): void;
+        abstract extract(): number;
+        abstract size(): number
+    }
+
+    class MinNumberHeap implements IHeap {
         protected constructor(list: number[]);
         abstract insert(value: number): void;
         abstract extract(): number;
