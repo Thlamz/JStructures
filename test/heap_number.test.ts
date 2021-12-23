@@ -59,9 +59,7 @@ implementations.forEach(({constructor, name}) => {
     })
 
     describe(`Testing min ${name} using numbers`, () => {
-        let heap = benchmark(() =>
-                new constructor(testArray, false)
-            , `${name} creation`);
+        let heap = new constructor(testArray, false);
 
         it('should have the correct size', () => {
             assert.equal(heap.size(), ARRAY_SIZE)
@@ -69,9 +67,7 @@ implementations.forEach(({constructor, name}) => {
 
         it('should use a heap to order an array', () => {
 
-            let heapResult: IComparable[] = benchmarkAverage(testArray, () => {
-                return heap.extract()
-            }, `${name} extraction`)
+            let heapResult: IComparable[] = testArray.map(() => heap.extract())
             assert.deepStrictEqual(heapResult, Array.from(sortedArray).reverse())
         })
     })
