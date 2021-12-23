@@ -15,7 +15,7 @@ let implementations: implementation[] = [
     {constructor: CNumberHeap, name: "CNumberHeap"}
 ]
 
-let ARRAY_SIZE = 1e6;
+let ARRAY_SIZE = 1e7;
 let testArray: number[] = [];
 for (let i = 0; i < ARRAY_SIZE; i++) {
     testArray.push(Math.random() * 1e8);
