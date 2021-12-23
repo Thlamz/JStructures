@@ -15,7 +15,7 @@ let implementations: implementation[] = [
     {constructor: CNumberHeap, name: "CNumberHeap"}
 ]
 
-let ARRAY_SIZE = 1e7;
+let ARRAY_SIZE = 1e6;
 let testArray: number[] = [];
 for (let i = 0; i < ARRAY_SIZE; i++) {
     testArray.push(Math.random() * 1e8);
@@ -24,8 +24,7 @@ for (let i = 0; i < ARRAY_SIZE; i++) {
 // A sorted array should give the same result as a heap when removing elements one by one
 let sortedArray = benchmark(() => Array.from(testArray).sort((a, b) => b - a), "array sorting");
 implementations.forEach(({constructor, name}) => {
-    describe(`Testing ${name} using numbers`, () => {
-
+    describe(`Testing max ${name} using numbers`, () => {
         let heap = benchmark(() =>
             new constructor(testArray)
         , `${name} creation`);
@@ -48,6 +47,32 @@ implementations.forEach(({constructor, name}) => {
 
         it('should have size 0 when empty', () => {
             assert.equal(heap.size(), 0)
+        })
+
+        it('should insert single element', () => {
+            let number = Math.random()
+            heap.insert(number)
+            assert.equal(heap.size(), 1)
+            assert.equal(heap.extract(), number)
+        })
+
+    })
+
+    describe(`Testing min ${name} using numbers`, () => {
+        let heap = benchmark(() =>
+                new constructor(testArray, false)
+            , `${name} creation`);
+
+        it('should have the correct size', () => {
+            assert.equal(heap.size(), ARRAY_SIZE)
+        })
+
+        it('should use a heap to order an array', () => {
+
+            let heapResult: IComparable[] = benchmarkAverage(testArray, () => {
+                return heap.extract()
+            }, `${name} extraction`)
+            assert.deepStrictEqual(heapResult, Array.from(sortedArray).reverse())
         })
     })
 })

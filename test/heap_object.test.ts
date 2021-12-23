@@ -2,6 +2,7 @@ import {IComparable} from "../src/structures/heap/IHeap";
 import assert from "assert";
 import JSHeap from "../src/structures/heap/JSHeap";
 import CHeap from "../src/structures/heap/CHeap";
+import {benchmark, benchmarkAverage} from "../src/helpers/benchmark";
 
 interface implementation {
     constructor: any,
@@ -56,6 +57,24 @@ implementations.forEach(({constructor, name}) => {
 
         it('should have size 0 when empty', () => {
             assert.equal(heap.size(), 0)
+        })
+    })
+
+    describe(`Testing min ${name} using objects`, () => {
+        let heap = benchmark(() =>
+                new constructor(valuedObjectArray, false)
+            , `${name} creation`);
+
+        it('should have the correct size', () => {
+            assert.equal(heap.size(), OBJECT_ARRAY_SIZE)
+        })
+
+        it('should use a heap to order an array', () => {
+
+            let heapResult: IComparable[] = benchmarkAverage(valuedObjectArray, () => {
+                return heap.extract()
+            }, `${name} extraction`)
+            assert.deepStrictEqual(heapResult, Array.from(sortedObjectArray).reverse())
         })
     })
 })

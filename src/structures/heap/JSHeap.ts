@@ -3,8 +3,10 @@ import IHeap, {IComparable} from "./IHeap";
 
 class JSHeap<T extends IComparable> implements IHeap<T> {
     private readonly _heap: T[];
-    constructor(list: T[] = []) {
+    private readonly isMax: boolean;
+    constructor(list: T[] = [], isMax: boolean = true) {
         this._heap = [];
+        this.isMax = isMax;
 
         for(let element of list) {
             this.insert(element)
@@ -41,18 +43,34 @@ class JSHeap<T extends IComparable> implements IHeap<T> {
             const left = this.getLeft(index);
             const right = this.getRight(index);
 
-            let smallest = index;
-            if(left < this._heap.length && this._heap[left] > this._heap[smallest]) {
-                smallest = left;
+            let swapped = index;
+            if(left < this._heap.length) {
+                if(this.isMax) {
+                    if(this._heap[left] > this._heap[swapped]) {
+                        swapped = left;
+                    }
+                } else {
+                    if(this._heap[left] < this._heap[swapped]) {
+                        swapped = left;
+                    }
+                }
             }
 
-            if(right < this._heap.length && this._heap[right] > this._heap[smallest]) {
-                smallest = right;
+            if(right < this._heap.length) {
+                if(this.isMax) {
+                    if(this._heap[right] > this._heap[swapped]) {
+                        swapped = right;
+                    }
+                } else {
+                    if(this._heap[right] < this._heap[swapped]) {
+                        swapped = right;
+                    }
+                }
             }
 
-            if(smallest !== index) {
-                this.swap(index, smallest);
-                index = smallest;
+            if(swapped !== index) {
+                this.swap(index, swapped);
+                index = swapped;
             } else {
                 break;
             }
@@ -64,8 +82,14 @@ class JSHeap<T extends IComparable> implements IHeap<T> {
     private push_up(index: number) : void {
         while(index >= 0) {
             let parentIndex: number = this.getParent(index);
-            if(this._heap[parentIndex] < this._heap[index]) {
-                this.swap(index, parentIndex);
+            if(this.isMax) {
+                if(this._heap[parentIndex] < this._heap[index]) {
+                    this.swap(index, parentIndex);
+                }
+            } else {
+                if(this._heap[parentIndex] > this._heap[index]) {
+                    this.swap(index, parentIndex);
+                }
             }
             index = parentIndex;
         }

@@ -1,12 +1,14 @@
-import IHeap, {IComparable} from "./IHeap";
+import IHeap , {IComparable} from "./IHeap";
 
 const { Heap } = require("../../../build/output");
 
 export default class CHeap<T extends IComparable> implements IHeap<T> {
     private heap;
+    private readonly isMax
     private readonly elementList: Record<number, T>;
     private lastKey: number = 0;
-    constructor(list: T[] = []) {
+    constructor(list: T[] = [], isMax: boolean = true) {
+        this.isMax = isMax;
         this.heap = new Heap()
         this.elementList = {}
 
@@ -16,7 +18,9 @@ export default class CHeap<T extends IComparable> implements IHeap<T> {
     }
     insert(value: T) {
         this.elementList[this.lastKey] = value
-        this.heap.insert(this.lastKey, value.valueOf())
+
+        // Inverting element if it is a min-heap
+        this.heap.insert(this.lastKey, value.valueOf() * (this.isMax ? 1 : -1))
         this.lastKey++
     }
     extract(): T | void {
