@@ -40,8 +40,8 @@
     "build:umd": "webpack --config config/webpack.config.js",
     "build:types": "tsc -p config/tsconfig.types.json",
     "clean": "node tools/cleanBuild.js",
-    "lint": "eslint src/** test/**",
-    "lint:fix": "eslint src/** test/**"
+    "lint": "eslint src/** test/** --config .eslintrc.js",
+    "lint:fix": "eslint src/** test/** --fix --config .eslintrc.js"
   },
   "dependencies": {},
   "lint-staged": {
