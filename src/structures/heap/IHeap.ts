@@ -1,12 +1,11 @@
 export interface IComparable {
-    valueOf(): number;
+  valueOf(): number;
 }
 
-
-interface IHeap<T extends  IComparable> {
-    insert(value: T): void;
-    extract(): T | void;
-    size(): number
+interface IHeap<T extends IComparable> {
+  insert(value: T): void;
+  extract(): T | void;
+  size(): number;
 }
 
 export default IHeap;

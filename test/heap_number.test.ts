@@ -1,75 +1,78 @@
-import JSHeap from "../src/structures/heap/JSHeap";
-import CHeap from "../src/structures/heap/CHeap";
-import {benchmark, benchmarkAverage} from "../src/helpers/benchmark";
-import {IComparable} from "../src/structures/heap/IHeap";
-import assert from 'assert'
-import CNumberHeap from "../src/structures/heap/CNumberHeap";
+import JSHeap from '../src/structures/heap/JSHeap';
+import CHeap from '../src/structures/heap/CHeap';
+import { benchmark, benchmarkAverage } from '../src/helpers/benchmark';
+import { IComparable } from '../src/structures/heap/IHeap';
+import CNumberHeap from '../src/structures/heap/CNumberHeap';
 
 interface implementation {
-    constructor: any,
-    name: string
+  constructor: any;
+  name: string;
 }
-let implementations: implementation[] = [
-    {constructor: JSHeap, name: "JSHeap"},
-    {constructor: CHeap, name: "CHeap"},
-    {constructor: CNumberHeap, name: "CNumberHeap"}
-]
+const implementations: implementation[] = [
+  { constructor: JSHeap, name: 'JSHeap' },
+  { constructor: CHeap, name: 'CHeap' },
+  { constructor: CNumberHeap, name: 'CNumberHeap' }
+];
 
-let ARRAY_SIZE = 1e7;
-let testArray: number[] = [];
+const ARRAY_SIZE = 1e6;
+const testArray: number[] = [];
 for (let i = 0; i < ARRAY_SIZE; i++) {
-    testArray.push(Math.random() * 1e8);
+  testArray.push(Math.random() * 1e8);
 }
 
 // A sorted array should give the same result as a heap when removing elements one by one
-let sortedArray = benchmark(() => Array.from(testArray).sort((a, b) => b - a), "array sorting");
-implementations.forEach(({constructor, name}) => {
-    describe(`Testing max ${name} using numbers`, () => {
-        let heap = benchmark(() =>
-            new constructor(testArray)
-        , `${name} creation`);
+const sortedArray = benchmark(
+  () => Array.from(testArray).sort((a, b) => b - a),
+  'array sorting'
+);
+implementations.forEach(({ constructor, name }) => {
+  describe(`Testing max ${name} using numbers`, () => {
+    const heap = benchmark(
+      () => new constructor(testArray),
+      `${name} creation`
+    );
 
-        it('should have the correct size', () => {
-            assert.equal(heap.size(), ARRAY_SIZE)
-        })
+    it('should have the correct size', () => {
+      expect(heap.size()).toBe(ARRAY_SIZE);
+    });
 
-        it('should use a heap to order an array', () => {
+    it('should use a heap to order an array', () => {
+      const heapResult: IComparable[] = benchmarkAverage(
+        testArray,
+        () => {
+          return heap.extract();
+        },
+        `${name} extraction`
+      );
+      expect(heapResult).toStrictEqual(sortedArray);
+    });
 
-            let heapResult: IComparable[] = benchmarkAverage(testArray, () => {
-                return heap.extract()
-            }, `${name} extraction`)
-            assert.deepStrictEqual(heapResult, sortedArray)
-        })
+    it('should return void when empty', () => {
+      expect(heap.extract()).toBeUndefined();
+    });
 
-        it('should return void when empty', () => {
-            assert.equal(heap.extract(), null)
-        })
+    it('should have size 0 when empty', () => {
+      expect(heap.size()).toBe(0);
+    });
 
-        it('should have size 0 when empty', () => {
-            assert.equal(heap.size(), 0)
-        })
+    it('should insert single element', () => {
+      const number = Math.random();
+      heap.insert(number);
+      expect(heap.size()).toBe(1);
+      expect(heap.extract()).toBe(number);
+    });
+  });
 
-        it('should insert single element', () => {
-            let number = Math.random()
-            heap.insert(number)
-            assert.equal(heap.size(), 1)
-            assert.equal(heap.extract(), number)
-        })
+  describe(`Testing min ${name} using numbers`, () => {
+    const heap = new constructor(testArray, false);
 
-    })
+    it('should have the correct size', () => {
+      expect(heap.size()).toBe(ARRAY_SIZE);
+    });
 
-    describe(`Testing min ${name} using numbers`, () => {
-        let heap = new constructor(testArray, false);
-
-        it('should have the correct size', () => {
-            assert.equal(heap.size(), ARRAY_SIZE)
-        })
-
-        it('should use a heap to order an array', () => {
-
-            let heapResult: IComparable[] = testArray.map(() => heap.extract())
-            assert.deepStrictEqual(heapResult, Array.from(sortedArray).reverse())
-        })
-    })
-})
-
+    it('should use a heap to order an array', () => {
+      const heapResult: IComparable[] = testArray.map(() => heap.extract());
+      expect(heapResult).toStrictEqual(Array.from(sortedArray).reverse());
+    });
+  });
+});
