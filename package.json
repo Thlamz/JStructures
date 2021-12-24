@@ -16,7 +16,9 @@
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
     "jest": "^27.4.5",
+    "lint-staged": "^12.1.4",
     "nyc": "^15.1.0",
     "prettier": "^2.5.1",
     "ts-jest": "^27.1.2",
@@ -27,6 +29,7 @@
     "webpack-cli": "^4.9.1"
   },
   "scripts": {
+    "postinstall": "husky install",
     "test": "jest --no-cache",
     "compile": "em++ -o src/structures/assembly/output.js src/structures/assembly/src/heap/Heap.cpp src/structures/assembly/src/heap/NumberHeap.cpp src/structures/assembly/src/Bindings.cpp -s EXPORT_NAME='bindings' -s WASM_ASYNC_COMPILATION=0 -s ALLOW_MEMORY_GROWTH=1 --bind -O3",
     "compile:cjs": "em++ -o dist/cjs/structures/assembly/output.js src/structures/assembly/src/heap/Heap.cpp src/structures/assembly/src/heap/NumberHeap.cpp src/structures/assembly/src/Bindings.cpp -s EXPORT_NAME='bindings' -s WASM_ASYNC_COMPILATION=0 -s ALLOW_MEMORY_GROWTH=1 --bind -O3",
@@ -37,7 +40,18 @@
     "build:umd": "webpack --config config/webpack.config.js",
     "build:types": "tsc -p config/tsconfig.types.json",
     "clean": "node tools/cleanBuild.js",
-    "lint": "eslint src/** test/** --fix"
+    "lint": "eslint src/** test/**",
+    "lint:fix": "eslint src/** test/**"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "lint-staged": {
+    "src/**/*.{ts}": [
+      "eslint --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
 }
