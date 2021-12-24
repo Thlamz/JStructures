@@ -27,5 +27,5 @@ jobs:
           node-version: '16'
         
       - run: yarn install --frozen-lockfile
-      - run: eslint src/** test/**
-      - run: jest --no-cache
+      - run: yarn lint
+      - run: yarn test
