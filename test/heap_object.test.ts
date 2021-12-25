@@ -1,6 +1,6 @@
-import { IComparable } from '../src/structures/heap/IHeap';
 import JSHeap from '../src/structures/heap/JSHeap';
 import CHeap from '../src/structures/heap/CHeap';
+import { IComparable } from '../src/structures/generics/IComparable';
 
 interface implementation {
   constructor: any;

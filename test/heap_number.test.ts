@@ -1,8 +1,8 @@
 import JSHeap from '../src/structures/heap/JSHeap';
 import CHeap from '../src/structures/heap/CHeap';
 import { benchmark, benchmarkAverage } from '../src/helpers/benchmark';
-import { IComparable } from '../src/structures/heap/IHeap';
 import CNumberHeap from '../src/structures/heap/CNumberHeap';
+import { IComparable } from '../src/structures/generics/IComparable';
 
 interface implementation {
   constructor: any;

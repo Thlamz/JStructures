@@ -1,6 +1,4 @@
-export interface IComparable {
-  valueOf(): number;
-}
+import { IComparable } from '../generics/IComparable';
 
 interface IHeap<T extends IComparable> {
   insert(value: T): void;

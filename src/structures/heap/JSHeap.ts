@@ -1,4 +1,5 @@
-import IHeap, { IComparable } from './IHeap';
+import IHeap from './IHeap';
+import { IComparable } from '../generics/IComparable';
 
 class JSHeap<T extends IComparable> implements IHeap<T> {
   private readonly _heap: T[];

@@ -1,4 +1,5 @@
-import IHeap, { IComparable } from './IHeap';
+import IHeap from './IHeap';
+import { IComparable } from '../generics/IComparable';
 
 const { Heap } = require('../assembly/output');
 
