@@ -4,13 +4,16 @@ interface IHashableObject extends Object {
   readonly _hash: number;
 }
 
-interface NotIHashableObject extends Object {
-  _hash: never;
+interface IPrimitiveString {
+  valueOf(): string;
 }
 
-export type IHashable = IHashableObject | IComparable;
+export type IHashable = IHashableObject | IComparable | IPrimitiveString;
 let _currentId = 0;
-export function makeHashable(object: NotIHashableObject): IHashable {
+export function makeHashable(object: object): IHashable {
+  if ('_hash' in object) {
+    return <IHashableObject>object;
+  }
   Object.defineProperty(object, '_hash', {
     configurable: false,
     writable: false,
