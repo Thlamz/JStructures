@@ -1,6 +1,5 @@
 import IHeap from './IHeap';
-
-const { MaxNumberHeap, MinNumberHeap } = require('../assembly/output');
+import { MaxNumberHeap, MinNumberHeap } from '../assembly/output';
 
 export default class CNumberHeap implements IHeap<number> {
   private heap;

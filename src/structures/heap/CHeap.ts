@@ -1,7 +1,6 @@
 import IHeap from './IHeap';
 import { IComparable } from '../generics/IComparable';
-
-const { Heap } = require('../assembly/output');
+import { Heap } from '../assembly/output';
 
 export default class CHeap<T extends IComparable> implements IHeap<T> {
   private heap;
