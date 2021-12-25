@@ -1,6 +1,7 @@
-import { IHashable } from '../generics/IHashable';
-
-export interface IDisjointSet<T extends IHashable> extends Set<T> {
-  union(set: IDisjointSet<T>): IDisjointSet<T>;
-  intersection(set: IDisjointSet<T>): IDisjointSet<T>;
+export default interface IDisjointSet<T> {
+  add(element: T): void;
+  union(element1: T, element2: T): void;
+  find(element: T): T | void;
+  contains(element: T): boolean;
+  areJoint(element1: T, element2: T): boolean;
 }
