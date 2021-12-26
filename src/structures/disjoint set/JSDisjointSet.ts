@@ -54,14 +54,11 @@ export default class JSDisjointSet<T> implements IDisjointSet<T> {
     let root2 = this.find(element2);
     if (!root1 || !root2 || root1 === root2) return;
 
-    if ((this.sizes.get(element1) ?? 0) < (this.sizes.get(element2) ?? 0)) {
+    if (this.sizes.get(element1)! < this.sizes.get(element2)!) {
       [root1, root2] = [root2, root1];
     }
 
     this.relations.set(root2, root1);
-    this.sizes.set(
-      root1,
-      (this.sizes.get(root1) ?? 0) + (this.sizes.get(root2) ?? 0)
-    );
+    this.sizes.set(root1, this.sizes.get(root1)! + this.sizes.get(root2)!);
   }
 }
