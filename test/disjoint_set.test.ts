@@ -32,12 +32,16 @@ describe('Testing disjoint set creation', () => {
 
   it('should join all sets', () => {
     let index = 0;
-    benchmarkAverage(testArray, () => {
-      if (index < testArray.length - 1) {
-        set.union(testArray[index], testArray[index + 1]);
-      }
-      index++;
-    });
+    benchmarkAverage(
+      testArray,
+      () => {
+        if (index < testArray.length - 1) {
+          set.union(testArray[index], testArray[index + 1]);
+        }
+        index++;
+      },
+      'disjoint set union'
+    );
 
     const parents: (string | number | object | void)[] = [];
     const areJoint: boolean[] = [];
