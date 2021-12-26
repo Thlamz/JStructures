@@ -7,6 +7,7 @@
 
 #include "heap/Heap.hpp"
 #include "heap/NumberHeap.hpp"
+#include "extendedSet/ExtendedSet.hpp"
 
 EMSCRIPTEN_BINDINGS(module) {
         class_<Heap>("Heap")
@@ -28,6 +29,15 @@ EMSCRIPTEN_BINDINGS(module) {
             .function("insert", &NumberHeap<std::greater<double>>::insert)
             .function("extract", &NumberHeap<std::greater<double>>::extract)
             .function("size", &NumberHeap<std::greater<double>>::size)
+        ;
+
+        class_<ExtendedSet>("ExtendedSet")
+            .smart_ptr_constructor("ExtendedSet", &std::make_shared<ExtendedSet, const val&>)
+            .function("add", &ExtendedSet::add)
+            .function("remove", &ExtendedSet::remove)
+            .function("contains", &ExtendedSet::contains)
+            .function("join", &ExtendedSet::join)
+            .function("intersection", &ExtendedSet::intersection)
         ;
 }
 

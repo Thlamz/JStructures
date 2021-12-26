@@ -22,3 +22,12 @@ export class MinNumberHeap {
   extract(): number;
   size(): number;
 }
+
+export class ExtendedSet {
+  constructor(list: number[]);
+  add(value: number): void;
+  remove(value: number): void;
+  contains(value: number): boolean;
+  join(set: ExtendedSet): void;
+  intersect(set: ExtendedSet): void;
+}
