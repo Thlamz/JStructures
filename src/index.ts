@@ -1,5 +1,3 @@
-import CHeap from './structures/heap/CHeap';
-import CNumberHeap from './structures/heap/CNumberHeap';
-import JSHeap from './structures/heap/JSHeap';
+import { Heap } from './structures/heap/Heap';
 
-export { JSHeap, CHeap, CNumberHeap };
+export { Heap };
