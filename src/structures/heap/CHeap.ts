@@ -1,11 +1,11 @@
 import IHeap, { IComparable } from './IHeap';
 import { Heap } from '../assembly/output';
-import { IAllocator, RepeatAllocator } from '../../helpers/allocator';
+import { RepeatAllocator } from '../../helpers/allocator';
 
 export default class CHeap<T extends IComparable> implements IHeap<T> {
   private readonly isMax: boolean;
   private readonly heap: Heap;
-  private readonly allocator: IAllocator;
+  private readonly allocator: RepeatAllocator;
   constructor(list: T[] = [], isMax = true) {
     this.isMax = isMax;
     this.heap = new Heap();
