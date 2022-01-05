@@ -9,17 +9,3 @@ export class Heap {
   extract(): number;
   size(): number;
 }
-
-export class MaxNumberHeap {
-  constructor(list: number[]);
-  insert(value: number): void;
-  extract(): number;
-  size(): number;
-}
-
-export class MinNumberHeap {
-  constructor(list: number[]);
-  insert(value: number): void;
-  extract(): number;
-  size(): number;
-}
