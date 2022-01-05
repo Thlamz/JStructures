@@ -1,0 +1,6 @@
+interface Heap {
+    void Heap();
+    void insert(long element, double value);
+    long extract();
+    long size();
+};

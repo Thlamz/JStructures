@@ -1,38 +1,35 @@
 import IHeap, { IComparable } from './IHeap';
-
-const { Heap } = require('../assembly/output');
+import { Heap } from '../assembly/output';
 
 export default class CHeap<T extends IComparable> implements IHeap<T> {
-  private heap;
-  private readonly isMax;
-  private readonly elementList: Record<number, T>;
-  private lastKey = 0;
+  private readonly isMax: boolean;
+  private readonly heap: Heap;
+  private pointer = 0;
+  private ptrArray: T[] = [];
   constructor(list: T[] = [], isMax = true) {
-    this.isMax = isMax;
     this.heap = new Heap();
-    this.elementList = {};
+    this.isMax = isMax;
 
     for (const element of list) {
       this.insert(element);
     }
   }
-  insert(value: T) {
-    this.elementList[this.lastKey] = value;
 
-    // Inverting element if it is a min-heap
-    this.heap.insert(this.lastKey, value.valueOf() * (this.isMax ? 1 : -1));
-    this.lastKey++;
-  }
-  extract(): T | void {
-    const key = this.heap.extract();
-    if (key === -1) {
+  extract(): void | T {
+    const pointer = this.heap.extract();
+    if (pointer === -1) {
       return;
     }
-    const value = this.elementList[key];
-    delete this.elementList[key];
-    return value;
+    return this.ptrArray[pointer];
   }
+
   size(): number {
     return this.heap.size();
+  }
+
+  insert(element: T) {
+    this.ptrArray[this.pointer] = element;
+    this.heap.insert(this.pointer, element.valueOf() * (this.isMax ? 1 : -1));
+    this.pointer++;
   }
 }

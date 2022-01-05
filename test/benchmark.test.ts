@@ -4,6 +4,7 @@
  */
 import { benchmark, benchmarkAverage } from '../src/helpers/benchmark';
 import { Heap } from '../src';
+import JSHeap from '../src/structures/heap/JSHeap';
 
 const ARRAY_SIZE = 1e6;
 const numberArray: number[] = [];
@@ -23,19 +24,7 @@ describe('Benchmarking heap creation and extraction', () => {
 
     {
       const heap = benchmark(
-        () => new Heap(numberArray, { wasm: true, numberOnly: true }),
-        'WASM number heap creation'
-      );
-      benchmarkAverage(
-        numberArray,
-        () => heap.extract(),
-        'WASM number heap extraction'
-      );
-    }
-
-    {
-      const heap = benchmark(
-        () => new Heap(numberArray, { wasm: true, numberOnly: false }),
+        () => new Heap(numberArray),
         'WASM object heap creation'
       );
       benchmarkAverage(
@@ -46,10 +35,7 @@ describe('Benchmarking heap creation and extraction', () => {
     }
 
     {
-      const heap = benchmark(
-        () => new Heap(numberArray, { wasm: false }),
-        'JS heap creation'
-      );
+      const heap = benchmark(() => new JSHeap(numberArray), 'JS heap creation');
       benchmarkAverage(numberArray, () => heap.extract(), 'JS heap extraction');
     }
 

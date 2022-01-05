@@ -4,15 +4,15 @@
 
 #include "Heap.hpp"
 
-void Heap::insert(unsigned int index, double value) {
-    this->push(std::pair<unsigned int, double>(index, value));
+void Heap::insert(long element, double value) {
+    this->push(std::pair<long, double>(element, value));
 }
 
-unsigned int Heap::extract() {
+long Heap::extract() {
     if(this->size() == 0) {
         return -1;
     }
-    unsigned int value = this->top().first;
+    long value = this->top().first;
     this->pop();
     return value;
 }
