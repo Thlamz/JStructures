@@ -1,14 +1,15 @@
 import IHeap, { IComparable } from './IHeap';
 import { Heap } from '../assembly/output';
+import { IAllocator, RepeatAllocator } from '../../helpers/allocator';
 
 export default class CHeap<T extends IComparable> implements IHeap<T> {
   private readonly isMax: boolean;
   private readonly heap: Heap;
-  private pointer = 0;
-  private ptrArray: T[] = [];
+  private readonly allocator: IAllocator;
   constructor(list: T[] = [], isMax = true) {
-    this.heap = new Heap();
     this.isMax = isMax;
+    this.heap = new Heap();
+    this.allocator = new RepeatAllocator();
 
     for (const element of list) {
       this.insert(element);
@@ -20,7 +21,7 @@ export default class CHeap<T extends IComparable> implements IHeap<T> {
     if (pointer === -1) {
       return;
     }
-    return this.ptrArray[pointer];
+    return <T>this.allocator.deallocateRetrievePointer(pointer);
   }
 
   size(): number {
@@ -28,8 +29,9 @@ export default class CHeap<T extends IComparable> implements IHeap<T> {
   }
 
   insert(element: T) {
-    this.ptrArray[this.pointer] = element;
-    this.heap.insert(this.pointer, element.valueOf() * (this.isMax ? 1 : -1));
-    this.pointer++;
+    this.heap.insert(
+      this.allocator.allocate(element),
+      element.valueOf() * (this.isMax ? 1 : -1)
+    );
   }
 }
