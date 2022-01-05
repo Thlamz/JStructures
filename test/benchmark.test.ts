@@ -5,6 +5,7 @@
 import { benchmark, benchmarkAverage } from '../src/helpers/benchmark';
 import { Heap } from '../src';
 import JSHeap from '../src/structures/heap/JSHeap';
+import { IComparable } from '../src/structures/heap/IHeap';
 
 const ARRAY_SIZE = 1e6;
 const numberArray: number[] = [];
@@ -22,21 +23,41 @@ describe('Benchmarking heap creation and extraction', () => {
     const clonedArray = Array.from(numberArray);
     benchmark(() => clonedArray.sort(), 'array sorting');
 
+    class valuedObject implements IComparable {
+      private value;
+      constructor(value: number) {
+        this.value = value;
+      }
+      valueOf(): number {
+        return this.value;
+      }
+    }
+    const numberSliceArray: IComparable[] = numberArray.slice(
+      0,
+      ARRAY_SIZE / 2
+    );
+    const objectSliceArray: IComparable[] = numberArray
+      .slice(ARRAY_SIZE / 2)
+      .map((number) => new valuedObject(number));
+    const mixedArray = numberSliceArray.concat(
+      numberSliceArray,
+      objectSliceArray
+    );
     {
       const heap = benchmark(
-        () => new Heap(numberArray),
+        () => new Heap(mixedArray),
         'WASM object heap creation'
       );
       benchmarkAverage(
-        numberArray,
+        mixedArray,
         () => heap.extract(),
         'WASM object heap extraction'
       );
     }
 
     {
-      const heap = benchmark(() => new JSHeap(numberArray), 'JS heap creation');
-      benchmarkAverage(numberArray, () => heap.extract(), 'JS heap extraction');
+      const heap = benchmark(() => new JSHeap(mixedArray), 'JS heap creation');
+      benchmarkAverage(mixedArray, () => heap.extract(), 'JS heap extraction');
     }
 
     // Dummy test to prevent "no tests in file" message
