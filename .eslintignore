@@ -5,4 +5,6 @@ tool
 *.wasm
 *.hpp
 *.cpp
+*.idl
 output.js
+glue.js

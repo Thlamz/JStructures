@@ -6,14 +6,16 @@
 #define LIB_BINDINGS_HPP
 
 #include "heap/Heap.hpp"
-#include "heap/NumberHeap.hpp"
+// #include "heap/NumberHeap.hpp"
+#include "glue.cpp"
 
+/*
 EMSCRIPTEN_BINDINGS(module) {
-        class_<Heap>("Heap")
-                .smart_ptr_constructor("Heap", &std::make_shared<Heap>)
-                .function("insert", &Heap::insert)
-                .function("extract", &Heap::extract)
-                .function("size", &Heap::size)
+        class_<CHeap>("CHeap")
+                .smart_ptr_constructor("CHeap", &std::make_shared<CHeap>)
+                .function("insert", &CHeap::insert)
+                .function("extract", &CHeap::extract)
+                .function("size", &CHeap::size)
         ;
 
         class_<NumberHeap<std::less<double>>>("MaxNumberHeap")
@@ -30,5 +32,5 @@ EMSCRIPTEN_BINDINGS(module) {
             .function("size", &NumberHeap<std::greater<double>>::size)
         ;
 }
-
+*/
 #endif //LIB_BINDINGS_HPP
