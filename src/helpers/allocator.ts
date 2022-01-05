@@ -5,23 +5,32 @@ export interface IAllocator {
   deallocateRetrievePointer(pointer: number): unknown;
 }
 
+const POINTER_RISK_ZONE = Number.MAX_SAFE_INTEGER - 100;
+
 export class UniqueAllocator implements IAllocator {
   private objectPointers: Map<unknown, number>;
   private pointerMemory: unknown[];
-  private freePointers: Set<number>;
+  private freePointers: number[];
   private pointer = 0;
   constructor() {
     this.objectPointers = new Map<unknown, number>();
     this.pointerMemory = [];
-    this.freePointers = new Set<number>();
+    this.freePointers = [];
   }
 
   allocate(element: unknown): number {
     if (this.objectPointers.has(element)) {
-      const pointer = this.objectPointers.get(element)!;
-      this.freePointers.delete(pointer);
+      return this.objectPointers.get(element)!;
+    }
+
+    // Try to use free pointers the pointer space is close to ending
+    if (this.pointer > POINTER_RISK_ZONE && this.freePointers.length > 0) {
+      const pointer = this.freePointers.pop()!;
+      this.objectPointers.set(element, pointer);
+      this.pointerMemory[pointer] = element;
       return pointer;
     }
+
     this.objectPointers.set(element, this.pointer);
     this.pointerMemory[this.pointer] = element;
 
@@ -36,14 +45,14 @@ export class UniqueAllocator implements IAllocator {
     const pointer = this.objectPointers.get(element);
     if (pointer !== undefined) {
       this.objectPointers.delete(element);
-      this.freePointers.add(pointer);
+      this.freePointers.push(pointer);
     }
   }
 
   deallocateRetrievePointer(pointer: number): unknown | undefined {
     const element = this.retrieve(pointer);
     this.objectPointers.delete(element);
-    this.freePointers.add(pointer);
+    this.freePointers.push(pointer);
     return element;
   }
 }
@@ -58,7 +67,14 @@ export class RepeatAllocator implements IAllocator {
   }
 
   allocate(element: unknown): number {
+    // Try to use free pointers the pointer space is close to ending
+    if (this.pointer > POINTER_RISK_ZONE && this.freePointers.length > 0) {
+      const pointer = this.freePointers.pop()!;
+      this.pointerSpace[pointer] = element;
+      return pointer;
+    }
     this.pointerSpace[this.pointer] = element;
+
     return this.pointer++;
   }
 
