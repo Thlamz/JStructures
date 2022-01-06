@@ -5,17 +5,19 @@
 #ifndef SRC_STACK_HPP
 #define SRC_STACK_HPP
 
-#include <stack>
+#include <deque>
 
-class Stack {
+class Deque {
 public:
-    Stack() {};
+    Deque() {};
     void push(long long element);
+    void shift(long long element);
     long long pop();
+    long long unshift();
     unsigned int size();
 
 private:
-    std::stack<long long> stack;
+    std::deque<long long> deque;
 };
 
 

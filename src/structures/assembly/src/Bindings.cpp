@@ -6,7 +6,7 @@
 #define LIB_BINDINGS_HPP
 
 #include "heap/Heap.hpp"
-#include "stack/Stack.hpp"
+#include "deque/Deque.hpp"
 // #include "heap/NumberHeap.hpp"
 #include "glue.cpp"
 

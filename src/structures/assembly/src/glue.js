@@ -229,34 +229,45 @@ Heap.prototype['size'] = Heap.prototype.size = /** @suppress {undefinedVars, dup
   var self = this.ptr;
   _emscripten_bind_Heap___destroy___0(self);
 };
-// Stack
-/** @suppress {undefinedVars, duplicate} @this{Object} */function Stack() {
-  this.ptr = _emscripten_bind_Stack_Stack_0();
-  getCache(Stack)[this.ptr] = this;
+// Deque
+/** @suppress {undefinedVars, duplicate} @this{Object} */function Deque() {
+  this.ptr = _emscripten_bind_Deque_Deque_0();
+  getCache(Deque)[this.ptr] = this;
 };;
-Stack.prototype = Object.create(WrapperObject.prototype);
-Stack.prototype.constructor = Stack;
-Stack.prototype.__class__ = Stack;
-Stack.__cache__ = {};
-Module['Stack'] = Stack;
+Deque.prototype = Object.create(WrapperObject.prototype);
+Deque.prototype.constructor = Deque;
+Deque.prototype.__class__ = Deque;
+Deque.__cache__ = {};
+Module['Deque'] = Deque;
 
-Stack.prototype['push'] = Stack.prototype.push = /** @suppress {undefinedVars, duplicate} @this{Object} */function(element) {
+Deque.prototype['push'] = Deque.prototype.push = /** @suppress {undefinedVars, duplicate} @this{Object} */function(element) {
   var self = this.ptr;
   if (element && typeof element === 'object') element = element.ptr;
-  _emscripten_bind_Stack_push_1(self, element);
+  _emscripten_bind_Deque_push_1(self, element);
 };;
 
-Stack.prototype['pop'] = Stack.prototype.pop = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+Deque.prototype['shift'] = Deque.prototype.shift = /** @suppress {undefinedVars, duplicate} @this{Object} */function(element) {
   var self = this.ptr;
-  return _emscripten_bind_Stack_pop_0(self);
+  if (element && typeof element === 'object') element = element.ptr;
+  _emscripten_bind_Deque_shift_1(self, element);
 };;
 
-Stack.prototype['size'] = Stack.prototype.size = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+Deque.prototype['pop'] = Deque.prototype.pop = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
   var self = this.ptr;
-  return _emscripten_bind_Stack_size_0(self);
+  return _emscripten_bind_Deque_pop_0(self);
 };;
 
-  Stack.prototype['__destroy__'] = Stack.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+Deque.prototype['unshift'] = Deque.prototype.unshift = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
   var self = this.ptr;
-  _emscripten_bind_Stack___destroy___0(self);
+  return _emscripten_bind_Deque_unshift_0(self);
+};;
+
+Deque.prototype['size'] = Deque.prototype.size = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_Deque_size_0(self);
+};;
+
+  Deque.prototype['__destroy__'] = Deque.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  _emscripten_bind_Deque___destroy___0(self);
 };

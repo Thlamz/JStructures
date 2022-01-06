@@ -10,9 +10,11 @@ export class Heap {
   size(): number;
 }
 
-export class Stack {
+export class Deque {
   constructor();
   push(element: number): void;
+  shift(element: number): void;
   pop(): number;
+  unshift(): number;
   size(): number;
 }
