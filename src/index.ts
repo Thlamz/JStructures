@@ -1,5 +1,6 @@
 import CHeap from './structures/heap/CHeap';
 import JSHeap from './structures/heap/JSHeap';
+import CStack from './structures/stack/CStack';
 
 const wasmSupported = (() => {
   try {
@@ -18,4 +19,5 @@ const wasmSupported = (() => {
 })();
 
 const Heap = wasmSupported ? CHeap : JSHeap;
-export { Heap };
+const Stack = CStack;
+export { Heap, Stack };
