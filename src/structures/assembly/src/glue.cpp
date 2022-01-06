@@ -43,5 +43,27 @@ void EMSCRIPTEN_KEEPALIVE emscripten_bind_Heap___destroy___0(Heap* self) {
   delete self;
 }
 
+// Stack
+
+Stack* EMSCRIPTEN_KEEPALIVE emscripten_bind_Stack_Stack_0() {
+  return new Stack();
+}
+
+void EMSCRIPTEN_KEEPALIVE emscripten_bind_Stack_push_1(Stack* self, long long element) {
+  self->push(element);
+}
+
+long long EMSCRIPTEN_KEEPALIVE emscripten_bind_Stack_pop_0(Stack* self) {
+  return self->pop();
+}
+
+int EMSCRIPTEN_KEEPALIVE emscripten_bind_Stack_size_0(Stack* self) {
+  return self->size();
+}
+
+void EMSCRIPTEN_KEEPALIVE emscripten_bind_Stack___destroy___0(Stack* self) {
+  delete self;
+}
+
 }
 

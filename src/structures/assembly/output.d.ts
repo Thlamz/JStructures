@@ -9,3 +9,10 @@ export class Heap {
   extract(): number;
   size(): number;
 }
+
+export class Stack {
+  constructor();
+  push(element: number): void;
+  pop(): number;
+  size(): number;
+}

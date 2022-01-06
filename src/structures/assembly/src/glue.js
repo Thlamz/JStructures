@@ -229,3 +229,34 @@ Heap.prototype['size'] = Heap.prototype.size = /** @suppress {undefinedVars, dup
   var self = this.ptr;
   _emscripten_bind_Heap___destroy___0(self);
 };
+// Stack
+/** @suppress {undefinedVars, duplicate} @this{Object} */function Stack() {
+  this.ptr = _emscripten_bind_Stack_Stack_0();
+  getCache(Stack)[this.ptr] = this;
+};;
+Stack.prototype = Object.create(WrapperObject.prototype);
+Stack.prototype.constructor = Stack;
+Stack.prototype.__class__ = Stack;
+Stack.__cache__ = {};
+Module['Stack'] = Stack;
+
+Stack.prototype['push'] = Stack.prototype.push = /** @suppress {undefinedVars, duplicate} @this{Object} */function(element) {
+  var self = this.ptr;
+  if (element && typeof element === 'object') element = element.ptr;
+  _emscripten_bind_Stack_push_1(self, element);
+};;
+
+Stack.prototype['pop'] = Stack.prototype.pop = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_Stack_pop_0(self);
+};;
+
+Stack.prototype['size'] = Stack.prototype.size = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_Stack_size_0(self);
+};;
+
+  Stack.prototype['__destroy__'] = Stack.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  _emscripten_bind_Stack___destroy___0(self);
+};

@@ -4,3 +4,10 @@ interface Heap {
     long extract();
     long size();
 };
+
+interface Stack {
+    void Stack();
+    void push(long long element);
+    long long pop();
+    long size();
+};

@@ -33,7 +33,7 @@
     "postinstall": "husky install",
     "test": "jest --no-cache",
     "glue": "python -m webidl_binder src/structures/assembly/src/interface.idl src/structures/assembly/src/glue",
-    "compile:base": "yarn glue && em++ src/structures/assembly/src/heap/Heap.cpp src/structures/assembly/src/Bindings.cpp -s EXPORT_NAME='bindings' -s WASM_ASYNC_COMPILATION=0 -s ALLOW_MEMORY_GROWTH=1 -O3 --post-js src/structures/assembly/src/glue.js",
+    "compile:base": "yarn glue && em++ src/structures/assembly/src/heap/Heap.cpp src/structures/assembly/src/stack/Stack.cpp src/structures/assembly/src/Bindings.cpp -s EXPORT_NAME='bindings' -s WASM_ASYNC_COMPILATION=0 -s ALLOW_MEMORY_GROWTH=1 -O3 --post-js src/structures/assembly/src/glue.js",
     "compile": "yarn compile:base -o src/structures/assembly/output.js",
     "compile:cjs": "yarn compile:base -o dist/cjs/structures/assembly/output.js",
     "compile:esm": "yarn compile:base -o dist/esm/structures/assembly/output.js",
