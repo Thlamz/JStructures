@@ -4,3 +4,13 @@ interface Heap {
     long extract();
     long size();
 };
+
+interface Deque {
+    void Deque();
+    void push(long long element);
+    void unshift(long long element);
+    long long pop();
+    long long shift();
+    long size();
+    long long at(long index);
+};

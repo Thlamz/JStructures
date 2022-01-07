@@ -9,3 +9,13 @@ export class Heap {
   extract(): number;
   size(): number;
 }
+
+export class Deque {
+  constructor();
+  push(element: number): void;
+  unshift(element: number): void;
+  pop(): number;
+  shift(): number;
+  size(): number;
+  at(index: number): number;
+}

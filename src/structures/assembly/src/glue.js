@@ -229,3 +229,51 @@ Heap.prototype['size'] = Heap.prototype.size = /** @suppress {undefinedVars, dup
   var self = this.ptr;
   _emscripten_bind_Heap___destroy___0(self);
 };
+// Deque
+/** @suppress {undefinedVars, duplicate} @this{Object} */function Deque() {
+  this.ptr = _emscripten_bind_Deque_Deque_0();
+  getCache(Deque)[this.ptr] = this;
+};;
+Deque.prototype = Object.create(WrapperObject.prototype);
+Deque.prototype.constructor = Deque;
+Deque.prototype.__class__ = Deque;
+Deque.__cache__ = {};
+Module['Deque'] = Deque;
+
+Deque.prototype['push'] = Deque.prototype.push = /** @suppress {undefinedVars, duplicate} @this{Object} */function(element) {
+  var self = this.ptr;
+  if (element && typeof element === 'object') element = element.ptr;
+  _emscripten_bind_Deque_push_1(self, element);
+};;
+
+Deque.prototype['unshift'] = Deque.prototype.unshift = /** @suppress {undefinedVars, duplicate} @this{Object} */function(element) {
+  var self = this.ptr;
+  if (element && typeof element === 'object') element = element.ptr;
+  _emscripten_bind_Deque_unshift_1(self, element);
+};;
+
+Deque.prototype['pop'] = Deque.prototype.pop = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_Deque_pop_0(self);
+};;
+
+Deque.prototype['shift'] = Deque.prototype.shift = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_Deque_shift_0(self);
+};;
+
+Deque.prototype['size'] = Deque.prototype.size = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  return _emscripten_bind_Deque_size_0(self);
+};;
+
+Deque.prototype['at'] = Deque.prototype.at = /** @suppress {undefinedVars, duplicate} @this{Object} */function(index) {
+  var self = this.ptr;
+  if (index && typeof index === 'object') index = index.ptr;
+  return _emscripten_bind_Deque_at_1(self, index);
+};;
+
+  Deque.prototype['__destroy__'] = Deque.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+  var self = this.ptr;
+  _emscripten_bind_Deque___destroy___0(self);
+};

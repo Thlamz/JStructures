@@ -43,5 +43,39 @@ void EMSCRIPTEN_KEEPALIVE emscripten_bind_Heap___destroy___0(Heap* self) {
   delete self;
 }
 
+// Deque
+
+Deque* EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_Deque_0() {
+  return new Deque();
+}
+
+void EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_push_1(Deque* self, long long element) {
+  self->push(element);
+}
+
+void EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_unshift_1(Deque* self, long long element) {
+  self->unshift(element);
+}
+
+long long EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_pop_0(Deque* self) {
+  return self->pop();
+}
+
+long long EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_shift_0(Deque* self) {
+  return self->shift();
+}
+
+int EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_size_0(Deque* self) {
+  return self->size();
+}
+
+long long EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_at_1(Deque* self, int index) {
+  return self->at(index);
+}
+
+void EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque___destroy___0(Deque* self) {
+  delete self;
+}
+
 }
 
