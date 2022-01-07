@@ -246,10 +246,10 @@ Deque.prototype['push'] = Deque.prototype.push = /** @suppress {undefinedVars, d
   _emscripten_bind_Deque_push_1(self, element);
 };;
 
-Deque.prototype['shift'] = Deque.prototype.shift = /** @suppress {undefinedVars, duplicate} @this{Object} */function(element) {
+Deque.prototype['unshift'] = Deque.prototype.unshift = /** @suppress {undefinedVars, duplicate} @this{Object} */function(element) {
   var self = this.ptr;
   if (element && typeof element === 'object') element = element.ptr;
-  _emscripten_bind_Deque_shift_1(self, element);
+  _emscripten_bind_Deque_unshift_1(self, element);
 };;
 
 Deque.prototype['pop'] = Deque.prototype.pop = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
@@ -257,9 +257,9 @@ Deque.prototype['pop'] = Deque.prototype.pop = /** @suppress {undefinedVars, dup
   return _emscripten_bind_Deque_pop_0(self);
 };;
 
-Deque.prototype['unshift'] = Deque.prototype.unshift = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
+Deque.prototype['shift'] = Deque.prototype.shift = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
   var self = this.ptr;
-  return _emscripten_bind_Deque_unshift_0(self);
+  return _emscripten_bind_Deque_shift_0(self);
 };;
 
 Deque.prototype['size'] = Deque.prototype.size = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {

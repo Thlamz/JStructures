@@ -2,8 +2,8 @@
 // Created by thlam on 05/01/2022.
 //
 
-#ifndef SRC_STACK_HPP
-#define SRC_STACK_HPP
+#ifndef SRC_DEQUE_HPP
+#define SRC_DEQUE_HPP
 
 #include <deque>
 
@@ -11,9 +11,9 @@ class Deque {
 public:
     Deque() {};
     void push(long long element);
-    void shift(long long element);
+    void unshift(long long element);
     long long pop();
-    long long unshift();
+    long long shift();
     unsigned int size();
 
 private:
@@ -21,4 +21,4 @@ private:
 };
 
 
-#endif //SRC_STACK_HPP
+#endif //SRC_DEQUE_HPP

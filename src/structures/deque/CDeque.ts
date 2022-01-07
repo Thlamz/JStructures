@@ -5,7 +5,7 @@ import { RepeatAllocator } from '../../helpers/allocator';
 export default class CDeque<T> implements IDeque<T> {
   private readonly deque;
   private readonly allocator: RepeatAllocator;
-  constructor(list: T[]) {
+  constructor(list: T[] = []) {
     this.allocator = new RepeatAllocator();
 
     this.deque = new Deque();
@@ -15,14 +15,14 @@ export default class CDeque<T> implements IDeque<T> {
     }
   }
 
-  shift(element: T): void {
-    this.deque.shift(this.allocator.allocate(element));
+  unshift(element: T): void {
+    this.deque.unshift(this.allocator.allocate(element));
   }
-  unshift(): void | T {
+  shift(): void | T {
     if (this.size() == 0) {
       return;
     }
-    return <T>this.allocator.deallocateRetrievePointer(this.deque.unshift());
+    return <T>this.allocator.deallocateRetrievePointer(this.deque.shift());
   }
 
   pop(): T | void {

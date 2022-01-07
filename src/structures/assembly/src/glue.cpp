@@ -53,16 +53,16 @@ void EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_push_1(Deque* self, long long el
   self->push(element);
 }
 
-void EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_shift_1(Deque* self, long long element) {
-  self->shift(element);
+void EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_unshift_1(Deque* self, long long element) {
+  self->unshift(element);
 }
 
 long long EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_pop_0(Deque* self) {
   return self->pop();
 }
 
-long long EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_unshift_0(Deque* self) {
-  return self->unshift();
+long long EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_shift_0(Deque* self) {
+  return self->shift();
 }
 
 int EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_size_0(Deque* self) {

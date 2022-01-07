@@ -13,8 +13,8 @@ export class Heap {
 export class Deque {
   constructor();
   push(element: number): void;
-  shift(element: number): void;
+  unshift(element: number): void;
   pop(): number;
-  unshift(): number;
+  shift(): number;
   size(): number;
 }

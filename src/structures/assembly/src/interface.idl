@@ -8,8 +8,8 @@ interface Heap {
 interface Deque {
     void Deque();
     void push(long long element);
-    void shift(long long element);
+    void unshift(long long element);
     long long pop();
-    long long unshift();
+    long long shift();
     long size();
 };

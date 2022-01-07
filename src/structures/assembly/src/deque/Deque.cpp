@@ -8,7 +8,7 @@ void Deque::push(long long element) {
     deque.push_front(element);
 }
 
-void Deque::shift(long long element) {
+void Deque::unshift(long long element) {
     deque.push_back(element);
 }
 
@@ -21,7 +21,7 @@ long long Deque::pop() {
     return value;
 }
 
-long long Deque::unshift() {
+long long Deque::shift() {
     if(deque.size() == 0) {
         return -1;
     }
