@@ -267,6 +267,12 @@ Deque.prototype['size'] = Deque.prototype.size = /** @suppress {undefinedVars, d
   return _emscripten_bind_Deque_size_0(self);
 };;
 
+Deque.prototype['at'] = Deque.prototype.at = /** @suppress {undefinedVars, duplicate} @this{Object} */function(index) {
+  var self = this.ptr;
+  if (index && typeof index === 'object') index = index.ptr;
+  return _emscripten_bind_Deque_at_1(self, index);
+};;
+
   Deque.prototype['__destroy__'] = Deque.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */function() {
   var self = this.ptr;
   _emscripten_bind_Deque___destroy___0(self);

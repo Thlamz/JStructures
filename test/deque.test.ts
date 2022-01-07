@@ -22,8 +22,10 @@ for (let i = 0; i < ARRAY_SIZE; i++) {
 describe('Testing Deque using numbers', () => {
   const dequeC = new CDeque(numberArray);
 
-  it('should have the correct size', () => {
+  it('should have all numbers', () => {
     expect(dequeC.size()).toBe(ARRAY_SIZE);
+    expect(dequeC.at(0)).toBe(numberArray[ARRAY_SIZE - 1]);
+    expect(dequeC.at(-1)).toBe(numberArray[0]);
   });
 
   it('should pop all elements in reverse order', () => {
@@ -34,6 +36,7 @@ describe('Testing Deque using numbers', () => {
   it('should be empty', () => {
     expect(dequeC.size()).toBe(0);
     expect(dequeC.pop()).toBeUndefined();
+    expect(dequeC.at(0)).toBeUndefined();
   });
 
   it('should push single element', () => {

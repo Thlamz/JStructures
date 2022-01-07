@@ -33,3 +33,7 @@ long long Deque::shift() {
 unsigned int Deque::size() {
     return deque.size();
 }
+
+long long Deque::at(unsigned int index) {
+    return deque[index];
+}

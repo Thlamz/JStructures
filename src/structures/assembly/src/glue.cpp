@@ -69,6 +69,10 @@ int EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_size_0(Deque* self) {
   return self->size();
 }
 
+long long EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque_at_1(Deque* self, int index) {
+  return self->at(index);
+}
+
 void EMSCRIPTEN_KEEPALIVE emscripten_bind_Deque___destroy___0(Deque* self) {
   delete self;
 }

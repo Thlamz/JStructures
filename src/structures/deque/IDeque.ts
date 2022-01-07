@@ -4,4 +4,5 @@ export interface IDeque<T> {
   pop(): T | void;
   shift(): T | void;
   size(): number;
+  at(index: number): T | void;
 }

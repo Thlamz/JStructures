@@ -12,4 +12,5 @@ interface Deque {
     long long pop();
     long long shift();
     long size();
+    long long at(long index);
 };

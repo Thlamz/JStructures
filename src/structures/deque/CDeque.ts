@@ -39,4 +39,14 @@ export default class CDeque<T> implements IDeque<T> {
   size(): number {
     return this.deque.size();
   }
+
+  at(index: number): T | void {
+    const size = this.size();
+    index = index >= 0 ? index : size + index;
+
+    if (index < 0 || index >= this.size()) {
+      return;
+    }
+    return <T>this.allocator.retrieve(this.deque.at(index));
+  }
 }

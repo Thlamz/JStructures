@@ -17,4 +17,5 @@ export class Deque {
   pop(): number;
   shift(): number;
   size(): number;
+  at(index: number): number;
 }

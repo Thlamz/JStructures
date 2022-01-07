@@ -15,6 +15,7 @@ public:
     long long pop();
     long long shift();
     unsigned int size();
+    long long at(unsigned int index);
 
 private:
     std::deque<long long> deque;
