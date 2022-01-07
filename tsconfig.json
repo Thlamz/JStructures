@@ -18,7 +18,8 @@
     "noFallthroughCasesInSwitch": true
     /* Report errors for fallthrough cases in switch statement. */,
     "esModuleInterop": true,
-    "allowJs": true
+    "allowJs": true,
+    "downlevelIteration": true
   },
   "include": [
     "src/**/*"

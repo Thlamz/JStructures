@@ -1,4 +1,4 @@
-export interface IDeque<T> {
+export interface IDeque<T> extends Iterable<T> {
   push(element: T): void;
   unshift(element: T): void;
   pop(): T | void;

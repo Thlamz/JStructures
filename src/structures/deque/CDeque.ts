@@ -15,6 +15,13 @@ export default class CDeque<T> implements IDeque<T> {
     }
   }
 
+  *[Symbol.iterator](): Iterator<T, undefined, undefined> {
+    for (let i = 0; i < this.size(); i++) {
+      yield this.at(i)!;
+    }
+    return;
+  }
+
   unshift(element: T): void {
     this.deque.unshift(this.allocator.allocate(element));
   }

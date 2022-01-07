@@ -29,8 +29,9 @@ describe('Testing Deque using numbers', () => {
   });
 
   it('should pop all elements in reverse order', () => {
+    expect([...dequeC]).toEqual([...numberArray].reverse());
     const removed = numberArray.map(() => dequeC.pop());
-    expect(removed).toEqual(numberArray.reverse());
+    expect(removed).toEqual([...numberArray].reverse());
   });
 
   it('should be empty', () => {
