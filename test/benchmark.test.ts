@@ -3,7 +3,7 @@
  * structures included in the library
  */
 import { benchmark, benchmarkAverage } from '../src/helpers/benchmark';
-import { Heap, Stack } from '../src';
+import { Heap, Deque } from '../src';
 import JSHeap from '../src/structures/heap/JSHeap';
 import { IComparable } from '../src/structures/heap/IHeap';
 
@@ -31,6 +31,7 @@ const mixedArray = numberSliceArray.concat(numberSliceArray, objectSliceArray);
 
 beforeEach(() => {
   global.console = require('console');
+  console.log('--------------------');
 });
 describe('Benchmarking heap creation and extraction', () => {
   it('should perform a benchmark', () => {
@@ -62,24 +63,51 @@ describe('Benchmarking heap creation and extraction', () => {
   });
 });
 
-describe('Benchmarking Stack creation and extraction', () => {
+describe('Benchmarking Deque creation and extraction', () => {
   it('should perform benchmark', () => {
     {
-      console.log('--------------------');
-      const array = benchmark(() => {
-        const newArray = [];
-        for (const element in mixedArray) {
-          newArray.push(element);
-        }
-        return newArray;
-      }, 'array creation');
+      const array: IComparable[] = [];
+
+      benchmarkAverage(
+        mixedArray,
+        (element) => {
+          array.push(element);
+        },
+        'array push'
+      );
       benchmarkAverage(mixedArray, () => array.pop(), 'array pop');
 
-      const stack = benchmark(
-        () => new Stack(mixedArray),
-        'WASM Stack creation'
+      benchmarkAverage(
+        mixedArray.slice(0, 1e5),
+        (element) => {
+          array.unshift(element);
+        },
+        'array unshift with 1e5 elements'
       );
-      benchmarkAverage(mixedArray, () => stack.pop(), 'WASM Stack pop');
+      benchmarkAverage(
+        mixedArray.slice(0, 1e5),
+        () => array.shift(),
+        'array shift with 1e5 elements'
+      );
+
+      const deque = new Deque();
+      benchmarkAverage(
+        mixedArray,
+        (element) => {
+          deque.push(element);
+        },
+        'WASM deque push'
+      );
+      benchmarkAverage(mixedArray, () => deque.pop(), 'WASM Deque pop');
+
+      benchmarkAverage(
+        mixedArray,
+        (element) => {
+          deque.unshift(element);
+        },
+        'WASM deque unshift'
+      );
+      benchmarkAverage(mixedArray, () => deque.shift(), 'WASM Deque shift');
     }
 
     // Dummy test to prevent "no tests in file" message
