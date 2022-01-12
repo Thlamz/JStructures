@@ -3,6 +3,7 @@ export interface IDeque<T> extends Iterable<T> {
   unshift(element: T): void;
   pop(): T | void;
   shift(): T | void;
-  size(): number;
+  size: number;
   at(index: number): T | void;
+  [Symbol.iterator](): Iterator<T, undefined, undefined>;
 }

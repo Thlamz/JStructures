@@ -16,7 +16,7 @@ export default class CDeque<T> implements IDeque<T> {
   }
 
   *[Symbol.iterator](): Iterator<T, undefined, undefined> {
-    for (let i = 0; i < this.size(); i++) {
+    for (let i = 0; i < this.size; i++) {
       yield this.at(i)!;
     }
     return;
@@ -26,14 +26,14 @@ export default class CDeque<T> implements IDeque<T> {
     this.deque.unshift(this.allocator.allocate(element));
   }
   shift(): void | T {
-    if (this.size() == 0) {
+    if (this.size == 0) {
       return;
     }
     return <T>this.allocator.deallocateRetrievePointer(this.deque.shift());
   }
 
   pop(): T | void {
-    if (this.size() == 0) {
+    if (this.size == 0) {
       return;
     }
     return <T>this.allocator.deallocateRetrievePointer(this.deque.pop());
@@ -43,15 +43,15 @@ export default class CDeque<T> implements IDeque<T> {
     this.deque.push(this.allocator.allocate(element));
   }
 
-  size(): number {
+  get size(): number {
     return this.deque.size();
   }
 
   at(index: number): T | void {
-    const size = this.size();
+    const size = this.size;
     index = index >= 0 ? index : size + index;
 
-    if (index < 0 || index >= this.size()) {
+    if (index < 0 || index >= this.size) {
       return;
     }
     return <T>this.allocator.retrieve(this.deque.at(index));

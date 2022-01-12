@@ -1,6 +1,7 @@
 import CHeap from './structures/heap/CHeap';
 import JSHeap from './structures/heap/JSHeap';
 import CDeque from './structures/deque/CDeque';
+import JSDeque from './structures/deque/JSDeque';
 
 const wasmSupported = (() => {
   try {
@@ -19,5 +20,5 @@ const wasmSupported = (() => {
 })();
 
 const Heap = wasmSupported ? CHeap : JSHeap;
-const Deque = CDeque;
+const Deque = wasmSupported ? CDeque : JSDeque;
 export { Heap, Deque };
