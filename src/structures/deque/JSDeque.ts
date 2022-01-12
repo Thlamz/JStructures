@@ -31,7 +31,7 @@ export default class JSDeque<T> implements IDeque<T> {
       return element?.value;
     } else {
       let element = this.tail!;
-      for (let i = 0; i < this.length - index; i++) {
+      for (let i = this.length - 1; i > index; i--) {
         element = element.previous!;
       }
       return element.value;
@@ -40,41 +40,53 @@ export default class JSDeque<T> implements IDeque<T> {
 
   pop(): void | T {
     if (this.length > 0) {
-      const value = this.tail?.value;
-      this.tail = this.tail?.previous;
+      const value = this.tail!.value;
+      this.tail = this.tail!.previous;
       this.length--;
-      if (value) {
-        return value;
-      }
+      return value;
     }
     return;
   }
 
   push(element: T): void {
-    this.tail = {
+    const node = {
       previous: this.tail,
       value: element
     };
+    if (this.tail) {
+      this.tail.next = node;
+    }
+
+    this.tail = node;
+    if (this.size === 0) {
+      this.head = this.tail;
+    }
     this.length++;
   }
 
   shift(): void | T {
     if (this.length > 0) {
-      const value = this.tail?.value;
-      this.head = this.tail?.next;
+      const value = this.head!.value;
+      this.head = this.head!.next;
       this.length--;
-      if (value) {
-        return value;
-      }
+      return value;
     }
     return;
   }
 
   unshift(element: T): void {
-    this.head = {
+    const node = {
       next: this.head,
       value: element
     };
+    if (this.head) {
+      this.head.previous = node;
+    }
+
+    this.head = node;
+    if (this.size === 0) {
+      this.tail = this.head;
+    }
     this.length++;
   }
 
@@ -83,8 +95,10 @@ export default class JSDeque<T> implements IDeque<T> {
   }
 
   *[Symbol.iterator](): Iterator<T, undefined, undefined> {
+    let element = this.head;
     for (let i = 0; i < this.size; i++) {
-      yield this.at(i)!;
+      yield element!.value;
+      element = element?.next;
     }
     return;
   }
