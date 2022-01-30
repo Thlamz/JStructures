@@ -1,0 +1,279 @@
+"use strict";
+// Bindings utilities
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+function WrapperObject() {
+}
+WrapperObject.prototype = Object.create(WrapperObject.prototype);
+WrapperObject.prototype.constructor = WrapperObject;
+WrapperObject.prototype.__class__ = WrapperObject;
+WrapperObject.__cache__ = {};
+Module['WrapperObject'] = WrapperObject;
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant)
+    @param {*=} __class__ */
+function getCache(__class__) {
+    return (__class__ || WrapperObject).__cache__;
+}
+Module['getCache'] = getCache;
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant)
+    @param {*=} __class__ */
+function wrapPointer(ptr, __class__) {
+    var cache = getCache(__class__);
+    var ret = cache[ptr];
+    if (ret)
+        return ret;
+    ret = Object.create((__class__ || WrapperObject).prototype);
+    ret.ptr = ptr;
+    return cache[ptr] = ret;
+}
+Module['wrapPointer'] = wrapPointer;
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+function castObject(obj, __class__) {
+    return wrapPointer(obj.ptr, __class__);
+}
+Module['castObject'] = castObject;
+Module['NULL'] = wrapPointer(0);
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+function destroy(obj) {
+    if (!obj['__destroy__'])
+        throw 'Error: Cannot destroy object. (Did you create it yourself?)';
+    obj['__destroy__']();
+    // Remove from cache, so the object can be GC'd and refs added onto it released
+    delete getCache(obj.__class__)[obj.ptr];
+}
+Module['destroy'] = destroy;
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+function compare(obj1, obj2) {
+    return obj1.ptr === obj2.ptr;
+}
+Module['compare'] = compare;
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+function getPointer(obj) {
+    return obj.ptr;
+}
+Module['getPointer'] = getPointer;
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+function getClass(obj) {
+    return obj.__class__;
+}
+Module['getClass'] = getClass;
+// Converts big (string or array) values into a C-style storage, in temporary space
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+var ensureCache = {
+    buffer: 0,
+    size: 0,
+    pos: 0,
+    temps: [],
+    needed: 0,
+    prepare: function () {
+        if (ensureCache.needed) {
+            // clear the temps
+            for (var i = 0; i < ensureCache.temps.length; i++) {
+                Module['_free'](ensureCache.temps[i]);
+            }
+            ensureCache.temps.length = 0;
+            // prepare to allocate a bigger buffer
+            Module['_free'](ensureCache.buffer);
+            ensureCache.buffer = 0;
+            ensureCache.size += ensureCache.needed;
+            // clean up
+            ensureCache.needed = 0;
+        }
+        if (!ensureCache.buffer) { // happens first time, or when we need to grow
+            ensureCache.size += 128; // heuristic, avoid many small grow events
+            ensureCache.buffer = Module['_malloc'](ensureCache.size);
+            assert(ensureCache.buffer);
+        }
+        ensureCache.pos = 0;
+    },
+    alloc: function (array, view) {
+        assert(ensureCache.buffer);
+        var bytes = view.BYTES_PER_ELEMENT;
+        var len = array.length * bytes;
+        len = (len + 7) & -8; // keep things aligned to 8 byte boundaries
+        var ret;
+        if (ensureCache.pos + len >= ensureCache.size) {
+            // we failed to allocate in the buffer, ensureCache time around :(
+            assert(len > 0); // null terminator, at least
+            ensureCache.needed += len;
+            ret = Module['_malloc'](len);
+            ensureCache.temps.push(ret);
+        }
+        else {
+            // we can allocate in the buffer
+            ret = ensureCache.buffer + ensureCache.pos;
+            ensureCache.pos += len;
+        }
+        return ret;
+    },
+    copy: function (array, view, offset) {
+        offset >>>= 0;
+        var bytes = view.BYTES_PER_ELEMENT;
+        switch (bytes) {
+            case 2:
+                offset >>>= 1;
+                break;
+            case 4:
+                offset >>>= 2;
+                break;
+            case 8:
+                offset >>>= 3;
+                break;
+        }
+        for (var i = 0; i < array.length; i++) {
+            view[offset + i] = array[i];
+        }
+    },
+};
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+function ensureString(value) {
+    if (typeof value === 'string') {
+        var intArray = intArrayFromString(value);
+        var offset = ensureCache.alloc(intArray, HEAP8);
+        ensureCache.copy(intArray, HEAP8, offset);
+        return offset;
+    }
+    return value;
+}
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+function ensureInt8(value) {
+    if (typeof value === 'object') {
+        var offset = ensureCache.alloc(value, HEAP8);
+        ensureCache.copy(value, HEAP8, offset);
+        return offset;
+    }
+    return value;
+}
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+function ensureInt16(value) {
+    if (typeof value === 'object') {
+        var offset = ensureCache.alloc(value, HEAP16);
+        ensureCache.copy(value, HEAP16, offset);
+        return offset;
+    }
+    return value;
+}
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+function ensureInt32(value) {
+    if (typeof value === 'object') {
+        var offset = ensureCache.alloc(value, HEAP32);
+        ensureCache.copy(value, HEAP32, offset);
+        return offset;
+    }
+    return value;
+}
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+function ensureFloat32(value) {
+    if (typeof value === 'object') {
+        var offset = ensureCache.alloc(value, HEAPF32);
+        ensureCache.copy(value, HEAPF32, offset);
+        return offset;
+    }
+    return value;
+}
+/** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */
+function ensureFloat64(value) {
+    if (typeof value === 'object') {
+        var offset = ensureCache.alloc(value, HEAPF64);
+        ensureCache.copy(value, HEAPF64, offset);
+        return offset;
+    }
+    return value;
+}
+// VoidPtr
+/** @suppress {undefinedVars, duplicate} @this{Object} */ function VoidPtr() { throw "cannot construct a VoidPtr, no constructor in IDL"; }
+VoidPtr.prototype = Object.create(WrapperObject.prototype);
+VoidPtr.prototype.constructor = VoidPtr;
+VoidPtr.prototype.__class__ = VoidPtr;
+VoidPtr.__cache__ = {};
+Module['VoidPtr'] = VoidPtr;
+VoidPtr.prototype['__destroy__'] = VoidPtr.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */ function () {
+    var self = this.ptr;
+    _emscripten_bind_VoidPtr___destroy___0(self);
+};
+// Heap
+/** @suppress {undefinedVars, duplicate} @this{Object} */ function Heap() {
+    this.ptr = _emscripten_bind_Heap_Heap_0();
+    getCache(Heap)[this.ptr] = this;
+}
+;
+;
+Heap.prototype = Object.create(WrapperObject.prototype);
+Heap.prototype.constructor = Heap;
+Heap.prototype.__class__ = Heap;
+Heap.__cache__ = {};
+Module['Heap'] = Heap;
+Heap.prototype['insert'] = Heap.prototype.insert = /** @suppress {undefinedVars, duplicate} @this{Object} */ function (element, value) {
+    var self = this.ptr;
+    if (element && typeof element === 'object')
+        element = element.ptr;
+    if (value && typeof value === 'object')
+        value = value.ptr;
+    _emscripten_bind_Heap_insert_2(self, element, value);
+};
+;
+Heap.prototype['extract'] = Heap.prototype.extract = /** @suppress {undefinedVars, duplicate} @this{Object} */ function () {
+    var self = this.ptr;
+    return _emscripten_bind_Heap_extract_0(self);
+};
+;
+Heap.prototype['size'] = Heap.prototype.size = /** @suppress {undefinedVars, duplicate} @this{Object} */ function () {
+    var self = this.ptr;
+    return _emscripten_bind_Heap_size_0(self);
+};
+;
+Heap.prototype['__destroy__'] = Heap.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */ function () {
+    var self = this.ptr;
+    _emscripten_bind_Heap___destroy___0(self);
+};
+// Deque
+/** @suppress {undefinedVars, duplicate} @this{Object} */ function Deque() {
+    this.ptr = _emscripten_bind_Deque_Deque_0();
+    getCache(Deque)[this.ptr] = this;
+}
+;
+;
+Deque.prototype = Object.create(WrapperObject.prototype);
+Deque.prototype.constructor = Deque;
+Deque.prototype.__class__ = Deque;
+Deque.__cache__ = {};
+Module['Deque'] = Deque;
+Deque.prototype['push'] = Deque.prototype.push = /** @suppress {undefinedVars, duplicate} @this{Object} */ function (element) {
+    var self = this.ptr;
+    if (element && typeof element === 'object')
+        element = element.ptr;
+    _emscripten_bind_Deque_push_1(self, element);
+};
+;
+Deque.prototype['unshift'] = Deque.prototype.unshift = /** @suppress {undefinedVars, duplicate} @this{Object} */ function (element) {
+    var self = this.ptr;
+    if (element && typeof element === 'object')
+        element = element.ptr;
+    _emscripten_bind_Deque_unshift_1(self, element);
+};
+;
+Deque.prototype['pop'] = Deque.prototype.pop = /** @suppress {undefinedVars, duplicate} @this{Object} */ function () {
+    var self = this.ptr;
+    return _emscripten_bind_Deque_pop_0(self);
+};
+;
+Deque.prototype['shift'] = Deque.prototype.shift = /** @suppress {undefinedVars, duplicate} @this{Object} */ function () {
+    var self = this.ptr;
+    return _emscripten_bind_Deque_shift_0(self);
+};
+;
+Deque.prototype['size'] = Deque.prototype.size = /** @suppress {undefinedVars, duplicate} @this{Object} */ function () {
+    var self = this.ptr;
+    return _emscripten_bind_Deque_size_0(self);
+};
+;
+Deque.prototype['at'] = Deque.prototype.at = /** @suppress {undefinedVars, duplicate} @this{Object} */ function (index) {
+    var self = this.ptr;
+    if (index && typeof index === 'object')
+        index = index.ptr;
+    return _emscripten_bind_Deque_at_1(self, index);
+};
+;
+Deque.prototype['__destroy__'] = Deque.prototype.__destroy__ = /** @suppress {undefinedVars, duplicate} @this{Object} */ function () {
+    var self = this.ptr;
+    _emscripten_bind_Deque___destroy___0(self);
+};
