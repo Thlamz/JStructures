@@ -1,8 +1,3 @@
-import CHeap from './structures/heap/CHeap';
-import JSHeap from './structures/heap/JSHeap';
-import CDeque from './structures/deque/CDeque';
-import JSDeque from './structures/deque/JSDeque';
-
 // Importing wasm to make sure it's included in the webpack compilation
 import './structures/assembly/output.wasm';
 
@@ -22,6 +17,10 @@ const wasmSupported = (() => {
   return false;
 })();
 
-const Heap = wasmSupported ? CHeap : JSHeap;
-const Deque = wasmSupported ? CDeque : JSDeque;
+const Heap = wasmSupported
+  ? (await import('./structures/heap/CHeap')).default
+  : (await import('./structures/heap/JSHeap')).default;
+const Deque = wasmSupported
+  ? (await import('./structures/deque/CDeque')).default
+  : (await import('./structures/deque/JSDeque')).default;
 export { Heap, Deque };
