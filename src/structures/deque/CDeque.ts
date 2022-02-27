@@ -1,7 +1,6 @@
 import { IDeque } from './IDeque';
-import { Deque } from '../assembly/output';
+import { Deque } from '../bindings';
 import { RepeatAllocator } from '../../helpers/allocator';
-
 export default class CDeque<T> implements IDeque<T> {
   private readonly deque;
   private readonly allocator: RepeatAllocator;

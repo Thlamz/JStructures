@@ -3,6 +3,9 @@ import JSHeap from './structures/heap/JSHeap';
 import CDeque from './structures/deque/CDeque';
 import JSDeque from './structures/deque/JSDeque';
 
+// Importing wasm to make sure it's included in the webpack compilation
+import './structures/assembly/output.wasm';
+
 const wasmSupported = (() => {
   try {
     if (
