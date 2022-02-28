@@ -1,6 +1,6 @@
 import IHeap, { IComparable } from './IHeap';
 
-class JSHeap<T extends IComparable> implements IHeap<T> {
+export default class JSHeap<T extends IComparable> implements IHeap<T> {
   private readonly _heap: T[];
   private readonly isMax: boolean;
   constructor(list: T[] = [], isMax = true) {
@@ -114,5 +114,3 @@ class JSHeap<T extends IComparable> implements IHeap<T> {
     this._heap[y] = temp;
   }
 }
-
-export default JSHeap;

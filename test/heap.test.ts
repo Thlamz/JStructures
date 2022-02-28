@@ -1,11 +1,11 @@
 import { IComparable } from '../src/structures/heap/IHeap';
-import JSHeap from '../src/structures/heap/JSHeap';
 import CHeap from '../src/structures/heap/CHeap';
+import JSHeap from '../src/structures/heap/JSHeap';
 const ARRAY_SIZE = 1000;
 const numberArray: number[] = [];
 
 class valuedObject {
-  private value;
+  private readonly value;
   constructor(value: number) {
     this.value = value;
   }
@@ -64,16 +64,16 @@ describe(`Testing max heap using numbers`, () => {
     expect(heapC.extract()).toBe(number);
   });
 });
-
-describe(`Testing min heap using numbers`, () => {
-  const heapJS = new JSHeap(objectArray, false);
-  const heapC = new CHeap(objectArray, false);
-
-  it('should use a heap to order an array', () => {
-    const jsResult = numberArray.map(() => heapJS.extract());
-    const CResult = numberArray.map(() => heapC.extract());
-
-    expect(jsResult).toEqual(Array.from(sortedObjectArray).reverse());
-    expect(CResult).toEqual(Array.from(sortedObjectArray).reverse());
-  });
-});
+//
+// describe(`Testing min heap using numbers`, () => {
+//   const heapJS = new JSHeap(objectArray, false);
+//   const heapC = new CHeap(objectArray, false);
+//
+//   it('should use a heap to order an array', () => {
+//     const jsResult = numberArray.map(() => heapJS.extract());
+//     const CResult = numberArray.map(() => heapC.extract());
+//
+//     expect(jsResult).toEqual(Array.from(sortedObjectArray).reverse());
+//     expect(CResult).toEqual(Array.from(sortedObjectArray).reverse());
+//   });
+// });

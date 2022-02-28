@@ -36,9 +36,9 @@
   },
   "scripts": {
     "postinstall": "husky install",
-    "test": "jest --no-cache --runInBand",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --no-cache --runInBand",
     "glue": "python -m webidl_binder src/structures/assembly/src/interface.idl src/structures/assembly/src/glue",
-    "compile:base": "yarn glue && em++ src/structures/assembly/src/heap/Heap.cpp src/structures/assembly/src/deque/Deque.cpp src/structures/assembly/src/Bindings.cpp -s EXPORT_NAME='bindings' -s ALLOW_MEMORY_GROWTH=1 -s EXPORT_ES6=1 -s USE_ES6_IMPORT_META=0 -s ASSERTIONS=1 -o0 --post-js src/structures/assembly/src/glue.js",
+    "compile:base": "yarn glue && em++ src/structures/assembly/src/heap/Heap.cpp src/structures/assembly/src/deque/Deque.cpp src/structures/assembly/src/Bindings.cpp -s EXPORT_NAME='bindings' -s ALLOW_MEMORY_GROWTH=1 -s EXPORT_ES6=1 -s USE_ES6_IMPORT_META=0 -Oz --post-js src/structures/assembly/src/glue.js --extern-pre-js tools/preCompile.js",
     "compile": "yarn compile:base -o src/structures/assembly/output.js",
     "build": "yarn clean && yarn compile && webpack --config webpack.config.js && tsc --declaration --emitDeclarationOnly --declarationDir dist/types",
     "clean": "node tools/cleanBuild.js",
