@@ -30,6 +30,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.ts'],
+    fallback: {
+      fs: false,
+      path: false
+    }
   },
   experiments: {
     outputModule: true,

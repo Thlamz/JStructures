@@ -4,13 +4,10 @@ module.exports = {
     '**/__tests__/**/*.+(ts|tsx|js)',
     '**/?(*.)+(spec|test).+(ts|tsx|js)',
   ],
-  transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
-    '^.+\\.(js)$': 'babel-jest'
-  },
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.json'
+  "preset": "ts-jest/presets/js-with-babel-esm",
+  "globals": {
+    "ts-jest": {
+      "useESM": true
     }
   }
 }

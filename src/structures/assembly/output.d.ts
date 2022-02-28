@@ -25,4 +25,9 @@ declare interface bindings {
   Deque: typeof Deque;
 }
 
-export default function (): Promise<bindings>;
+declare interface indirectBindings {
+  default: () => Promise<bindings>;
+}
+
+declare const bindings: () => Promise<bindings> | indirectBindings;
+export default bindings;
