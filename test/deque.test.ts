@@ -1,7 +1,6 @@
 import { IComparable } from '../src/structures/heap/IHeap';
 import CDeque from '../src/structures/deque/CDeque';
 import JSDeque from '../src/structures/deque/JSDeque';
-
 const ARRAY_SIZE = 1000;
 const numberArray: number[] = [];
 

@@ -3,14 +3,14 @@ import IHeap, { IComparable } from '../heap/IHeap';
 
 /** Above will import declarations from @types/emscripten, including Module etc. */
 
-export class Heap {
+declare class Heap {
   constructor();
   insert(element: number, value: number): void;
   extract(): number;
   size(): number;
 }
 
-export class Deque {
+declare class Deque {
   constructor();
   push(element: number): void;
   unshift(element: number): void;
@@ -19,3 +19,15 @@ export class Deque {
   size(): number;
   at(index: number): number;
 }
+
+declare interface bindings {
+  Heap: typeof Heap;
+  Deque: typeof Deque;
+}
+
+declare interface indirectBindings {
+  default: () => Promise<bindings>;
+}
+
+declare const bindings: () => Promise<bindings> | indirectBindings;
+export default bindings;
