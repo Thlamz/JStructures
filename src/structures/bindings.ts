@@ -9,3 +9,8 @@ if ('default' in bindings) {
 }
 export const Heap = exported.Heap;
 export const Deque = exported.Deque;
+export const ReferenceHandler = {
+  release: exported._release,
+  intern: exported._intern,
+  handleValue: exported._handle_value
+};

@@ -21,7 +21,7 @@ export default class CHeap<T extends IComparable> implements IHeap<T> {
     if (pointer === -1) {
       return;
     }
-    return <T>this.allocator.deallocateRetrievePointer(pointer);
+    return <T>this.allocator.deallocateRetrieve(pointer);
   }
 
   size(): number {
