@@ -23,6 +23,10 @@ declare class Deque {
 declare interface bindings {
   Heap: typeof Heap;
   Deque: typeof Deque;
+
+  _intern(element: unknown): number;
+  _release(handle: number): void;
+  _handle_value(handle: number): unknown;
 }
 
 declare interface indirectBindings {
