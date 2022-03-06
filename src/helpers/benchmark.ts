@@ -1,4 +1,4 @@
-const { performance } = require('perf_hooks');
+import { performance } from 'perf_hooks';
 
 function limitPrecision(value: number) {
   return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
