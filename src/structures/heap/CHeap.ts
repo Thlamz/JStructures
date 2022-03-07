@@ -1,15 +1,15 @@
 import IHeap, { IComparable } from './IHeap';
 import { Heap } from '../bindings';
-import { RepeatAllocator } from '../../helpers/allocator';
+import { IAllocator, WasmAllocator } from '../../helpers/allocator';
 
 export default class CHeap<T extends IComparable> implements IHeap<T> {
   private readonly isMax: boolean;
   private readonly heap;
-  private readonly allocator: RepeatAllocator;
+  private readonly allocator: IAllocator;
   constructor(list: T[] = [], isMax = true) {
     this.isMax = isMax;
     this.heap = new Heap();
-    this.allocator = new RepeatAllocator();
+    this.allocator = new WasmAllocator();
 
     for (const element of list) {
       this.insert(element);
