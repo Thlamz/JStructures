@@ -1,8 +1,10 @@
+import { ReferenceHandler } from '../structures/bindings';
+
 export interface IAllocator {
   allocate(element: unknown): number;
   retrieve(pointer: number): unknown;
-  deallocate(element: unknown): void;
-  deallocateRetrievePointer(pointer: number): unknown;
+  deallocate(pointer: number): void;
+  deallocateRetrieve(pointer: number): unknown;
 }
 
 const POINTER_RISK_ZONE = Number.MAX_SAFE_INTEGER - 100;
@@ -41,18 +43,15 @@ export class UniqueAllocator implements IAllocator {
     return this.pointerMemory[pointer];
   }
 
-  deallocate(element: unknown): void {
-    const pointer = this.objectPointers.get(element);
-    if (pointer !== undefined) {
-      this.objectPointers.delete(element);
-      this.freePointers.push(pointer);
-    }
-  }
-
-  deallocateRetrievePointer(pointer: number): unknown | undefined {
+  deallocate(pointer: number) {
     const element = this.retrieve(pointer);
     this.objectPointers.delete(element);
     this.freePointers.push(pointer);
+  }
+
+  deallocateRetrieve(pointer: number): unknown | undefined {
+    const element = this.retrieve(pointer);
+    this.deallocate(pointer);
     return element;
   }
 }
@@ -78,25 +77,38 @@ export class RepeatAllocator implements IAllocator {
     return this.pointer++;
   }
 
-  deallocate(element: unknown): void {
-    for (
-      let pointer = this.pointerSpace.indexOf(element);
-      pointer !== -1;
-      pointer = this.pointerSpace.indexOf(element, pointer)
-    ) {
-      this.pointerSpace[pointer] = null;
-      this.freePointers.push(pointer);
-    }
-  }
-
-  deallocateRetrievePointer(pointer: number): unknown {
-    const element = this.retrieve(pointer);
+  deallocate(pointer: number) {
     this.pointerSpace[pointer] = null;
     this.freePointers.push(pointer);
+  }
+
+  deallocateRetrieve(pointer: number): unknown {
+    const element = this.retrieve(pointer);
+    this.deallocate(pointer);
     return element;
   }
 
   retrieve(pointer: number): unknown {
     return this.pointerSpace[pointer];
+  }
+}
+
+export class WasmAllocator implements IAllocator {
+  allocate(element: unknown): number {
+    return ReferenceHandler.intern(element);
+  }
+
+  deallocate(pointer: number): void {
+    return ReferenceHandler.release(pointer);
+  }
+
+  deallocateRetrieve(pointer: number): unknown {
+    const element = ReferenceHandler.handleValue(pointer);
+    ReferenceHandler.release(pointer);
+    return element;
+  }
+
+  retrieve(pointer: number): unknown {
+    return ReferenceHandler.handleValue(pointer);
   }
 }

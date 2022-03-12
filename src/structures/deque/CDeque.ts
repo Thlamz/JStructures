@@ -1,11 +1,11 @@
 import { IDeque } from './IDeque';
 import { Deque } from '../bindings';
-import { RepeatAllocator } from '../../helpers/allocator';
+import { IAllocator, WasmAllocator } from '../../helpers/allocator';
 export default class CDeque<T> implements IDeque<T> {
   private readonly deque;
-  private readonly allocator: RepeatAllocator;
+  private readonly allocator: IAllocator;
   constructor(list: T[] = []) {
-    this.allocator = new RepeatAllocator();
+    this.allocator = new WasmAllocator();
 
     this.deque = new Deque();
 
@@ -28,14 +28,14 @@ export default class CDeque<T> implements IDeque<T> {
     if (this.size == 0) {
       return;
     }
-    return <T>this.allocator.deallocateRetrievePointer(this.deque.shift());
+    return <T>this.allocator.deallocateRetrieve(this.deque.shift());
   }
 
   pop(): T | void {
     if (this.size == 0) {
       return;
     }
-    return <T>this.allocator.deallocateRetrievePointer(this.deque.pop());
+    return <T>this.allocator.deallocateRetrieve(this.deque.pop());
   }
 
   push(element: T): void {
